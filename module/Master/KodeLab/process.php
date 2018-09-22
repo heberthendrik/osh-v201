@@ -1,14 +1,21 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+/* error_reporting(E_ALL); */
+/* ini_set('display_errors', 1); */
 include('../../../library/function_list.php');
 
 if( $_POST['module'] == "AddKodeLab" ){
 	
-	$input_parameter['NAMA'] = $_POST['textNama'];
+	$input_parameter['NAME'] = $_POST['textNama'];
+	$input_parameter['GROUP_1'] = $_POST['textGroup1'];
+	$input_parameter['GROUP_2'] = $_POST['textGroup2'];
+	$input_parameter['GROUP_3'] = $_POST['textGroup3'];
+	$input_parameter['SATUAN'] = $_POST['textSatuan'];
 	$input_parameter['METODA'] = $_POST['textMetoda'];
-	$input_parameter['GRUP'] = $_POST['textGrup'];
-	$input_parameter['STATUS'] = $_POST['selectStatus'];
+	$input_parameter['KD_LAB'] = $_POST['textKodeLab'];
+	$input_parameter['KD_LIS'] = $_POST['textKodeLis'];
+	$input_parameter['KOMA'] = $_POST['textKoma'];
+	$input_parameter['YFORMAT'] = $_POST['textYFormat'];
+	$input_parameter['KD_FROM_DEVICE'] = $_POST['textKodeDariAlat'];
 	
 	$function_result = AddKodeLab($input_parameter);
 	
@@ -16,7 +23,7 @@ if( $_POST['module'] == "AddKodeLab" ){
 		
 		$_SESSION['OSH']['FUNCTION_RESULT'] = $function_result['FUNCTION_RESULT'];
 		$_SESSION['OSH']['SYSTEM_MESSAGE'] = $function_result['SYSTEM_MESSAGE'];
-		header("Location:index.php");
+		header("Location:detail.php?id=".$function_result['NEW_ID']);
 		exit;
 		
 	} else {
@@ -66,10 +73,17 @@ if( $_GET['module'] == "DeleteNilaiRujukan" ){
 if( $_POST['module'] == "UpdateKodeLab" ){
 
 	$input_parameter['ID'] = $_POST['currentID'];
-	$input_parameter['NAMA'] = $_POST['textNama'];
+	$input_parameter['NAME'] = $_POST['textNama'];
+	$input_parameter['GROUP_1'] = $_POST['textGroup1'];
+	$input_parameter['GROUP_2'] = $_POST['textGroup2'];
+	$input_parameter['GROUP_3'] = $_POST['textGroup3'];
+	$input_parameter['SATUAN'] = $_POST['textSatuan'];
 	$input_parameter['METODA'] = $_POST['textMetoda'];
-	$input_parameter['GRUP'] = $_POST['textGrup'];
-	$input_parameter['STATUS'] = $_POST['selectStatus'];
+	$input_parameter['KD_LAB'] = $_POST['textKodeLab'];
+	$input_parameter['KD_LIS'] = $_POST['textKodeLis'];
+	$input_parameter['KOMA'] = $_POST['textKoma'];
+	$input_parameter['YFORMAT'] = $_POST['textYFormat'];
+	$input_parameter['KD_FROM_DEVICE'] = $_POST['textKodeDariAlat'];
 	
 	$function_result = UpdateKodeLabByID($input_parameter);
 	

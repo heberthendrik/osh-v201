@@ -1,57 +1,83 @@
 <?php
-$db = pg_pconnect("host=localhost port=5432 dbname=ehealth");
+include("../../library/function_list.php");
+
+
+
+$input_parameter_labmaster['ID'] = $_GET['lid'];
+$function_GetLabMasterByID = GetLabMasterByID($input_parameter_labmaster);
+
+
+
+
 
 /* AMBIL DATA PASIEN */
-$result = pg_query($db, "SELECT * FROM tab_lab_master where id = '" . $_GET['lid'] . "' ");
+$query_1 = "SELECT * FROM lab_main where id = '" . $_GET['lid'] . "' ";
+$result = $db->query($query_1);
 if (!$result) {
     echo "An error occurred.\n";
     exit;
 }
 
-$drr = pg_fetch_all($result);
-$x_tanggal = $drr[0]['created_at'];
-$x_nolab = $drr[0]['id'];
-$x_norm = $drr[0]['no_rm'];
-$x_nama = $drr[0]['nama'];
-$x_tanggallahir = $drr[0]['tgl_lahir'];
-$x_umur = $drr[0]['umur'];
-$x_alamat = $drr[0]['alamat'];
-$x_ruang = $drr[0]['nm_ruang'];
-$x_kelas = $drr[0]['nm_kelas'];
-$x_status = $drr[0]['nm_status'];
-$x_dokterpengirim = $drr[0]['nm_dokter'];
-$x_alamatdokter = $drr[0]['alamat_dokter'];
-$x_ketklinik = $drr[0]['ket_klinik'];
-$x_catatan1 = $drr[0]['catatan_1'];
-$x_catatan2 = $drr[0]['catatan_2'];
-$x_dokteracc = $drr[0]['nm_dokter_acc'];
-$x_pemeriksa = $drr[0]['nm_pemeriksa'];
-$x_idrs = $drr[0]['id_rs'];
+$drr = $result->fetch_assoc();
+$x_tanggal = $drr['CREATED_AT'];
+$x_nolab = $drr['id'];
+$x_norm = $drr['NO_RM'];
+$x_nama = $drr['PATIENT_NAME'];
+$x_tanggallahir = $drr['BIRTH_DATE'];
+$x_umur = $drr['AGE'];
+$x_alamat = $drr['PATIENT_ADDRESS'];
+$x_ruang = $drr['ROOM_NAME'];
+$x_kelas = $drr['KELAS_NAME'];
+$x_status = $drr['STATUS_NAME'];
+$x_dokterpengirim = $drr['nm_dokter'];
+$x_alamatdokter = $drr['alamat_dokter'];
+$x_ketklinik = $drr['ket_klinik'];
+$x_catatan1 = $drr['catatan_1'];
+$x_catatan2 = $drr['catatan_2'];
+$x_dokteracc = $drr['nm_dokter_acc'];
+$x_pemeriksa = $drr['nm_pemeriksa'];
+$x_idrs = $drr['id_rs'];
 
 /* AMBIL LOGO RS */
-$result = pg_query($db, "SELECT * FROM tab_rs where id = '" . $x_idrs . "' ");
+$query_2 = "SELECT * FROM master_hospital where id = '" . $x_idrs . "' ";
+$result = $db->query($query_2);
 if (!$result) {
     echo "An error occurred.\n";
     exit;
 }
 
-$lrr = pg_fetch_all($result);
-$x_logors = $lrr[0]['logo'];
+$lrr = $result->fetch_assoc();
+$x_logors = $lrr['logo'];
 
 /* AMBIL DATA HISTOGRAM */
-$result = pg_query($db, "SELECT * FROM tab_lab_histogram where id = '" . $_GET['lid'] . "' ");
+$query_3 = "SELECT * FROM lab_histogram where id = '" . $_GET['lid'] . "' ";
+$result = $db->query($query_3);
 if (!$result) {
     echo "An error occurred.\n";
     exit;
 }
 
-$arr = pg_fetch_all($result);
+$arr = $result->fetch_assoc();
 $x_id = $_GET['lid'];
 $x_idmaster = $_GET['lid'];
 $x_pltvalue = $arr[0]['plt_value'];
 $x_rbcvalue = $arr[0]['rbc_value'];
 $x_wbcvalue = $arr[0]['wbc_value'];
 ?>
+
+<?php
+if( strlen($function_GetLabMasterByID['NO_LAB'][0]) == 1 ){
+	$function_GetLabMasterByID['NO_LAB'][0] = '00'.$function_GetLabMasterByID['NO_LAB'][0];
+} else if( strlen($function_GetLabMasterByID['NO_LAB'][0]) == 2 ){
+	$function_GetLabMasterByID['NO_LAB'][0] = '00'.$function_GetLabMasterByID['NO_LAB'][0];
+} else if( strlen($function_GetLabMasterByID['NO_LAB'][0]) == 3 ){
+	$function_GetLabMasterByID['NO_LAB'][0] = $function_GetLabMasterByID['NO_LAB'][0];
+}
+
+$display_nolab = $function_GetLabMasterByID['NO_LAB_PREFIX'][0].$function_GetLabMasterByID['NO_LAB'][0];
+?>
+						
+						
 <!doctype html>
 <html lang="en">
 	<head>
@@ -79,8 +105,8 @@ $x_wbcvalue = $arr[0]['wbc_value'];
 			<div class="row" style="margin-top:15px;background:#f6f6f6;border-bottom:1px solid #DADADA;border-radius:5px 5px 0 0 !important;padding:18px;">
 				<table style="width:100%;">
 					<tr>
-						<td><?php echo $x_id;?> - <?php echo $x_nama;?></td>
-						<td class="text-right"><img alt="<?php echo $x_id;?>" src="../../library/barcode.php?text=<?php echo $x_id;?>"/></td>
+						<td><?php echo $display_nolab;?> - <?php echo $x_nama;?></td>
+						<td class="text-right"><img alt="<?php echo $display_nolab;?>" src="../../library/barcode.php?text=<?php echo $display_nolab;?>"/></td>
 					</tr>
 				</table>
 			</div>
@@ -90,53 +116,53 @@ $x_wbcvalue = $arr[0]['wbc_value'];
 					<table style="width:100%;" class="table table-striped">
 				        <tr>
 				            <th>Tanggal</th>
-				            <td><?php echo $x_tanggal;?></td>
+				            <td><?php echo $function_GetLabMasterByID['CREATED_AT'][0];?></td>
 				            <th>No. Lab</th>
 				            <td><?php echo $x_id;?></td>
 				            <th>Status</th>
-				            <td><?php echo $x_status;?></td>
+				            <td><?php echo $function_GetLabMasterByID['STATUS_NAME'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>No. Rekam Medis</th>
-				            <td colspan="3"><?php echo $x_norm;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['NO_RM'][0];?></td>
 				            <th>Dokter Pengirim</th>
-				            <td><?php echo $x_dokterpengirim;?></td>
+				            <td><?php echo $function_GetLabMasterByID['DOCTOR_SENDER_NAME'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>Nama</th>
-				            <td colspan="3"><?php echo $x_nama;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['PATIENT_NAME'][0];?></td>
 				            <th>Alamat Dokter</th>
-				            <td><?php echo $x_alamatdokter;?></td>
+				            <td><?php echo $function_GetLabMasterByID['DOCTOR_SENDER_ADDRESS'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>Tanggal Lahir</th>
-				            <td colspan="3"><?php echo $x_tanggallahir;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['BIRTH_DATE'][0];?></td>
 				            <th>Ket Klinik</th>
-				            <td><?php echo $x_ketklinik;?></td>
+				            <td><?php echo $function_GetLabMasterByID['KET_KLINIK'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>Umur</th>
-				            <td colspan="3"><?php echo $x_umur;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['AGE'][0];?></td>
 				            <th>Catatan 1</th>
-				            <td><?php echo $x_catatan1;?></td>
+				            <td><?php echo $function_GetLabMasterByID['NOTE_1'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>Alamat</th>
-				            <td colspan="3"><?php echo $x_alamat;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['PATIENT_ADDRESS'][0];?></td>
 				            <th>Catatan 2</th>
-				            <td><?php echo $x_catatan2;?></td>
+				            <td><?php echo $function_GetLabMasterByID['NOTE_2'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>Ruang</th>
-				            <td colspan="3"><?php echo $x_ruang;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['ROOM_NAME'][0];?></td>
 				            <th>Dokter ACC</th>
-				            <td><?php echo $x_dokteracc;?></td>
+				            <td><?php echo $function_GetLabMasterByID['DOCTOR_ACC_NAME'][0];?></td>
 				        </tr>
 				        <tr>
 				            <th>Kelas</th>
-				            <td colspan="3"><?php echo $x_kelas;?></td>
+				            <td colspan="3"><?php echo $function_GetLabMasterByID['KELAS_NAME'][0];?></td>
 				            <th>Pemeriksa</th>
-				            <td><?php echo $x_pemeriksa;?></td>
+				            <td><?php echo $function_GetLabMasterByID['MASTER_USER_LAB_CREATION_NAME'][0];?></td>
 				        </tr>
 				    </table>
 				</div>

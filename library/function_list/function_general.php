@@ -64,19 +64,22 @@ function Login($input_parameter){
 				left join master_user t2 on t1.ID_USER = t2.ID
 				left join master_doctor t3 on t1.ID_DOCTOR = t3.ID
 				left join master_officer t4 on t1.ID_OFFICER = t4.ID
+			where
+				t2.EMAIL = '".$email."'
+			limit 0,1
 			";
 /* 			echo $query_getdetail;exit; */
 			$result_getdetail = $db->query($query_getdetail);
 			$row_getdetail = $result_getdetail->fetch_assoc();
 			
 			$_SESSION['OSH']['LOGIN_STATUS'] = 1;
-			$_SESSION['OSH']['COMPOSITE_ID'] = 1;
-			$_SESSION['OSH']['ID_ROLE'] = 1;
-			$_SESSION['OSH']['ID_USER'] = 1;
-			$_SESSION['OSH']['NAME'] = 'Hebert Hendrik';
-			$_SESSION['OSH']['EMAIL'] = 'hebert.hendrik@gmail.com';
-			$_SESSION['OSH']['PROFILE_PICTURE'] = $row['PROFILE_PICTURE'];
-			$_SESSION['OSH']['ID_RS'] = 0;
+			$_SESSION['OSH']['COMPOSITE_ID'] = $row_getdetail['ID_COMPOSITE'];
+			$_SESSION['OSH']['ID_ROLE'] = $row_getdetail['ID_ROLE'];
+			$_SESSION['OSH']['ID_USER'] = $row_getdetail['ID_USER'];
+			$_SESSION['OSH']['NAME'] = $row_getdetail['NAME'];
+			$_SESSION['OSH']['EMAIL'] = $row_getdetail['EMAIL'];
+			$_SESSION['OSH']['PROFILE_PICTURE'] = $row_getdetail['PROFILE_PICTURE'];
+			$_SESSION['OSH']['ID_RS'] = $row_getdetail['ID_RS'];
 			
 		} else {
 			
@@ -266,6 +269,46 @@ function Terbilang($x) {
     
     
 } 
+
+function CalculateAge($input_parameter){
+	
+	# object oriented
+	$from = new DateTime($input_parameter['DATE_START']);
+	$to   = new DateTime('today');
+	$hasil = $from->diff($to)->y;
+
+	# procedural
+	//echo $hasil = date_diff(date_create('1970-02-01'), date_create('today'))->y;
+	return $hasil;
+	
+}
+
+function AddNotification($input_parameter){
+	
+	global $db;
+	
+	$query_add = 
+	"
+	insert into notification
+	(
+		ID_MASTER_SENDER,
+		ID_MASTER_RECEIVER,
+		MESSAGE_TEXT,
+		LINK,
+		CREATED_AT
+	)
+	values
+	(
+		'".$input_parameter['ID_MASTER_SENDER']."',
+		'".$input_parameter['ID_MASTER_RECEIVER']."',
+		'".$input_parameter['MESSAGE_TEXT']."',
+		'".$input_parameter['LINK']."',
+		'".date('Y-m-d H:i:s')."'
+	)
+	";
+	$result_add = $db->query($query_add);
+	
+}
 
 /*
 function UpdateLastLogin(){

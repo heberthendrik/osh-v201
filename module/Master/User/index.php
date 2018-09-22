@@ -5,7 +5,7 @@ include("../../../library/function_list.php");
 $repository_url = "../../../MASTER";
 ?>
 <!doctype html>
-<html class="fixed sidebar-light sidebar-left-collapsed">
+<html class="fixed sidebar-light ">
 	<head>
 
 		<!-- Basic -->
@@ -59,7 +59,7 @@ $repository_url = "../../../MASTER";
 
 				<section role="main" class="content-body">
 					<header class="page-header">
-						<h2>User</h2>
+						<h2>Admin</h2>
 					
 						<div class="right-wrapper text-right">
 							<ol class="breadcrumbs">
@@ -68,7 +68,7 @@ $repository_url = "../../../MASTER";
 										<i class="fas fa-home"></i>
 									</a>
 								</li>
-								<li><span>User</span></li>
+								<li><span>Admin</span></li>
 							</ol>
 					
 							<a class="sidebar-right-toggle" data-open=""><i class="fas fa-chevron-left"></i></a>

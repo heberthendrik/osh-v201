@@ -57,4 +57,16 @@ if( $_GET['module'] == "DeleteRumahSakit" ){
 	
 }
 
+if( $_GET['module'] == "VisitNotif" ){
+	
+	$input_parameter['ID'] = $_GET['id'];
+	
+	$function_result = ExecuteNotification($input_parameter);
+	
+	$function_GetNotifikasiByID = GetNotifikasiByID($input_parameter);
+	header("Location:".$function_GetNotifikasiByID['LINK'][0]);
+	exit;
+	
+}
+
 ?>

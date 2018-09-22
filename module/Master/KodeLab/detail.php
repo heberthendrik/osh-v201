@@ -8,7 +8,7 @@ $kodelab_parameter['ID'] = $current_id;
 $function_GetKodeLabByID = GetKodeLabByID($kodelab_parameter);
 ?>
 <!doctype html>
-<html class="fixed sidebar-light sidebar-left-collapsed">
+<html class="fixed sidebar-light ">
 	<head>
 
 		<!-- Basic -->
@@ -98,7 +98,7 @@ $function_GetKodeLabByID = GetKodeLabByID($kodelab_parameter);
 									<div id="modalHapus" class="modal-block modal-header-color modal-block-danger mfp-hide">
 										<section class="card">
 											<header class="card-header">
-												<h2 class="card-title">Are you sure?</h2>
+												<h2 class="card-title">Yakin untuk menghapus?</h2>
 											</header>
 											<div class="card-body">
 												<div class="modal-wrapper">
@@ -106,16 +106,16 @@ $function_GetKodeLabByID = GetKodeLabByID($kodelab_parameter);
 														<i class="fas fa-question-circle"></i>
 													</div>
 													<div class="modal-text">
-														<h4>Primary</h4>
-														<p>Are you sure that you want to delete this image?</p>
+														<h4>Konfirmasi Penghapusan Data</h4>
+														<p>Apakah Anda yakin untuk menghapus data ini?</p>
 													</div>
 												</div>
 											</div>
 											<footer class="card-footer">
 												<div class="row">
 													<div class="col-md-12 text-right">
-														<a href="process.php?module=DeleteKodeLab&id=<?php echo $current_id ?>" class="btn btn-danger ">Confirm</a>
-														<button class="btn btn-default modal-dismiss">Cancel</button>
+														<a href="process.php?module=DeleteKodeLab&id=<?php echo $current_id ?>" class="btn btn-danger ">Hapus</a>
+														<button class="btn btn-default modal-dismiss">Batal</button>
 													</div>
 												</div>
 											</footer>
@@ -197,38 +197,93 @@ $function_GetKodeLabByID = GetKodeLabByID($kodelab_parameter);
 										<h2 class="card-title">Formulir Pembaharuan Data</h2>
 									</header>
 									<div class="card-body">
+									
+										<div class="row">
 										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Nama Kode Lab *</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namakodelab" name="textNama" value="<?php echo rtrim($function_GetKodeLabByID['NAMA'][0]);?>" required >
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Nama Kode Lab *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textNama" value="<?php echo rtrim($function_GetKodeLabByID['NAME'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Group 1 *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_group1" name="textGroup1" value="<?php echo rtrim($function_GetKodeLabByID['GROUP_1'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Group 2 *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_group2" name="textGroup2" value="<?php echo rtrim($function_GetKodeLabByID['GROUP_2'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Group 3 *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_group3" name="textGroup3" value="<?php echo rtrim($function_GetKodeLabByID['GROUP_3'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Satuan *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_satuan" name="textSatuan" value="<?php echo rtrim($function_GetKodeLabByID['SATUAN'][0]);?>" required >
+													</div>
+												</div>
 											</div>
-										</div>
-										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Metoda *</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namakodelab" name="textMetoda" value="<?php echo rtrim($function_GetKodeLabByID['METODA'][0]);?>" required >
+											
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Metoda *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_metoda" name="textMetoda" value="<?php echo rtrim($function_GetKodeLabByID['METODA'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kode Lab *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textKodeLab" value="<?php echo rtrim($function_GetKodeLabByID['KD_LAB'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kode LIS *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_kodelis" name="textKodeLis" value="<?php echo rtrim($function_GetKodeLabByID['KD_LIS'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Koma *</label>
+													<div class="col-lg-8">
+														<input type="number" class="form-control" id="input_koma" name="textKoma" value="<?php echo rtrim($function_GetKodeLabByID['KOMA'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">YFormat *</label>
+													<div class="col-lg-8">
+														<input type="number" class="form-control" id="input_yformat" name="textYFormat" value="<?php echo rtrim($function_GetKodeLabByID['YFORMAT'][0]);?>" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kode dari alat *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="inputkdfromdevice" name="textKodeDariAlat" value="<?php echo rtrim($function_GetKodeLabByID['KD_FROM_DEVICE'][0]);?>" required >
+													</div>
+												</div>
+											
 											</div>
+											
 										</div>
-										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Grup *</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namakodelab" name="textGrup" value="<?php echo rtrim($function_GetKodeLabByID['GRUP1'][0]);?>" required >
-											</div>
-										</div>
-										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2">Status *</label>
-											<div class="col-lg-6">
-												<select class="form-control mb-3" id="input_status" name="selectStatus" required >
-													<option value="0" <?php if( $function_GetKodeLabByID['STATUS'][0] == 0 ){ echo ' selected '; } ?> >Tidak Aktif</option>
-													<option value="1" <?php if( $function_GetKodeLabByID['STATUS'][0] == 1 ){ echo ' selected '; } ?> >Aktif</option>
-												</select>
-											</div>
-										</div>
-										
+									
 									</div>
 								</section>
 							</div>
@@ -258,7 +313,7 @@ $function_GetKodeLabByID = GetKodeLabByID($kodelab_parameter);
 											<tbody>
 												<?php
 												$input_parameter_norujukan['ID_KDLAB'] = $current_id;
-												$function_GetAllNilaiRujukanByKodeLabID = GetAllNilaiRujukanByKodeLabID($input_parameter_norujukan);
+/* 												$function_GetAllNilaiRujukanByKodeLabID = GetAllNilaiRujukanByKodeLabID($input_parameter_norujukan); */
 												
 												for( $i=0;$i<$function_GetAllNilaiRujukanByKodeLabID['TOTAL_ROW'];$i++ ){
 													

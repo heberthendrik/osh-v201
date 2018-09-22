@@ -137,22 +137,22 @@ $function_GetPasienByID = GetPasienByID($pasien_parameter);
 									<div class="card-body">
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Nama Pasien *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Nama Pasien *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNama" required value="<?php echo rtrim($function_GetPasienByID['NAME'][0]);?>" >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No. Rekam Medis *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No. Rekam Medis *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNoRm" required value="<?php echo rtrim($function_GetPasienByID['NO_RM'][0]);?>" >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2">Jenis Kelamin *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2">Jenis Kelamin *</label>
+											<div class="col-lg-8">
 												<select class="form-control " id="input_status" name="selectSex" required >
 													<option value="">--Pilih Jenis Kelamin--</option>
 													<option value="L" <?php if( $function_GetPasienByID['SEX'][0] == "L" ){ echo ' selected ';} ?>  >Laki-Laki</option>
@@ -163,8 +163,8 @@ $function_GetPasienByID = GetPasienByID($pasien_parameter);
 										
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Tanggal Lahir *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Tanggal Lahir *</label>
+											<div class="col-lg-8">
 												<input type="date" class="form-control" id="input_namapasien" name="dateTanggalLahir" value="<?php echo $function_GetPasienByID['BIRTH_DATE'][0];?>" required >
 											</div>
 										</div>
@@ -173,8 +173,8 @@ $function_GetPasienByID = GetPasienByID($pasien_parameter);
 										if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
 											?>
 											<div class="form-group row">
-												<label class="col-lg-3 control-label text-lg-right pt-2">Rumah Sakit *</label>
-												<div class="col-lg-6">
+												<label class="col-lg-4 control-label text-lg-right pt-2">Rumah Sakit *</label>
+												<div class="col-lg-8">
 													<select class="form-control " id="input_idrs" name="selectRumahSakit" required >
 														<option value="">--Pilih Rumah Sakit--</option>
 														<?php
@@ -214,29 +214,29 @@ $function_GetPasienByID = GetPasienByID($pasien_parameter);
 									<div class="card-body">
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No KTP</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No KTP</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNoKTP" value="<?php echo rtrim($function_GetPasienByID['NIK'][0]);?>" required >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Alamat *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Alamat *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textAlamat" required value="<?php echo rtrim($function_GetPasienByID['ADDRESS'][0]);?>" >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No Telp</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No Telp</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNoTelp" value="<?php echo rtrim($function_GetPasienByID['PHONE_NUMBER'][0]);?>" >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Email</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Email</label>
+											<div class="col-lg-8">
 												<input type="email" class="form-control" id="input_namapasien" name="emailEmail" value="<?php echo rtrim($function_GetPasienByID['EMAIL'][0]);?>" >
 											</div>
 										</div>

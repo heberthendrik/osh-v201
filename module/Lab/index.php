@@ -5,7 +5,7 @@ include("../../library/function_list.php");
 $repository_url = "../../MASTER";
 ?>
 <!doctype html>
-<html class="fixed sidebar-light sidebar-left-collapsed">
+<html class="fixed sidebar-light ">
 	<head>
 
 		<!-- Basic -->
@@ -79,15 +79,23 @@ $repository_url = "../../MASTER";
 
 					<!-- start: page -->
 
-						<div class="row">
-							<div class="col">
-								<section class="card">
-									<header class="card-header" style="text-align:right;">
-										<a href="add.php" class="btn btn-primary">Tambah Data</a>
-									</header>
-								</section>
-							</div>
-						</div>
+						<?php
+						if( $_SESSION['OSH']['ID_ROLE'] == 3 || $_SESSION['OSH']['ID_ROLE'] == 4 ){
+					    	?>
+						    <div class="row">
+								<div class="col">
+									<section class="card">
+										<header class="card-header" style="text-align:right;">
+											<a href="process.php?module=AddTemporaryLab" class="btn btn-primary">Tambah Data</a>
+										</header>
+									</section>
+								</div>
+							</div>	
+					    	<?php            
+						}
+						?>
+
+						
 						
 						<div class="row">
 							<div class="col">
@@ -110,7 +118,7 @@ $repository_url = "../../MASTER";
 											<tbody>
 												<?php
 												$function_GetAllLabMaster = GetAllLabMaster();
-												
+
 												for( $i=0;$i<$function_GetAllLabMaster['TOTAL_ROW'];$i++ ){
 												
 													$display_tanggalan = date("d F Y", strtotime($function_GetAllLabMaster['CREATED_AT'][$i]));
@@ -125,16 +133,30 @@ $repository_url = "../../MASTER";
 														$display_status = '';
 													}
 													
-													?>
-													<tr onclick="window.location='detail.php?id=<?php echo $function_GetAllLabMaster['ID'][$i] ;?>'">
-														<td><?php echo $display_tanggalan;?></td>
-														<td><?php echo $function_GetAllLabMaster['ID'][$i];?></td>
-														<td><?php echo $function_GetAllLabMaster['NO_RM'][$i];?></td>
-														<td><?php echo $function_GetAllLabMaster['NAMA'][$i];?></td>
-														<td><?php echo $function_GetAllLabMaster['TGL_LAHIR'][$i];?></td>
-														<td><?php echo $display_status;?></td>
-													</tr>
-													<?php
+													if( strlen($function_GetAllLabMaster['NO_LAB'][$i]) == 1 ){
+														$display_nolab = '00'.$function_GetAllLabMaster['NO_LAB'][$i];
+													} else if( strlen($function_GetAllLabMaster['NO_LAB'][$i]) == 2 ){
+														$display_nolab = '0'.$function_GetAllLabMaster['NO_LAB'][$i];
+													} else if( strlen($function_GetAllLabMaster['NO_LAB'][$i]) == 3 ){
+														$display_nolab = $function_GetAllLabMaster['NO_LAB'][$i];
+													} 
+													
+													$display_nolab = $function_GetAllLabMaster['NO_LAB_PREFIX'][$i].$display_nolab;
+													
+													if( $function_GetAllLabMaster['OVERALL_STATUS'][$i] == 1 ){
+														?>
+														<tr onclick="window.location='detail.php?id=<?php echo $function_GetAllLabMaster['ID'][$i] ;?>'">
+															<td><?php echo $display_tanggalan;?></td>
+															<td><?php echo $display_nolab;?></td>
+															<td><?php echo $function_GetAllLabMaster['NO_RM'][$i];?></td>
+															<td><?php echo $function_GetAllLabMaster['PATIENT_NAME'][$i];?></td>
+															<td><?php echo $function_GetAllLabMaster['BIRTH_DATE'][$i];?></td>
+															<td><?php echo $display_status;?></td>
+														</tr>
+														<?php	
+													}
+													
+													
 													
 												}
 												

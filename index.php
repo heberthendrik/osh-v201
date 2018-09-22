@@ -12,10 +12,6 @@ include("library/function_list/function_general.php");
 		<!-- Basic -->
 		<meta charset="UTF-8">
 
-		<meta name="keywords" content="HTML5 Admin Template" />
-		<meta name="description" content="Porto Admin - Responsive HTML5 Template">
-		<meta name="author" content="okler.net">
-
 		<!-- Mobile Metas -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
 
@@ -41,6 +37,7 @@ include("library/function_list/function_general.php");
 
 		<!-- Head Libs -->
 		<script src="<?php echo GetMasterLink();?>/MASTER/vendor/modernizr/modernizr.js"></script>
+		<link rel="icon" type="image/png" href="media_library/fav.png" />
 
 	</head>
 	<body>

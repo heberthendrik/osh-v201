@@ -14,6 +14,7 @@ if( $_POST['module'] == "AddDokter" ){
 	}
 	
 	$function_result = AddDokter($input_parameter);
+	mkdir('../../../media_library/profilepicture/'.$function_result['NEW_ID']);
 	
 	if( $function_result['FUNCTION_RESULT'] == 1 ){
 		

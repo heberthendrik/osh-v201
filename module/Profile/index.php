@@ -105,15 +105,15 @@ $repository_url = "../../MASTER";
 							
 							<ul class="simple-card-list mb-3">
 								<li class="primary">
-									<h3><?php echo GetTotalReportGenerated();?></h3>
+									<h3><?php //echo GetTotalReportGenerated();?></h3>
 									<p class="text-light">Report Generated</p>
 								</li>
 								<li class="primary">
-									<h3><?php echo GetPendingReport();?></h3>
+									<h3><?php //echo GetPendingReport();?></h3>
 									<p class="text-light">Pending Report</p>
 								</li>
 								<li class="primary">
-									<h3><?php echo GetCompletedReport();?></h3>
+									<h3><?php //echo GetCompletedReport();?></h3>
 									<p class="text-light">Report Completed</p>
 								</li>
 							</ul>
@@ -148,12 +148,21 @@ $repository_url = "../../MASTER";
 														$function_GetAllNotifikasi = GetAllNotifikasi();
 														
 														for( $i=0;$i<$function_GetAllNotifikasi['TOTAL_ROW'];$i++ ){
+														
+															if( $function_GetAllNotifikasi['IS_READ'][$i] == 0 ){
+																$background = ' style="background:rgba(255,0,0,0.1);border-color:red;" ';
+															} else {
+																$background = '';
+															}
+														
 															?>
+
 															<li>
-																<div class="tm-box">
+																<div class="tm-box" <?php echo $background;?> >
 																	<p class="text-muted mb-0"><?php echo $function_GetAllNotifikasi['CREATED_AT'][$i]; ?></p>
 																	<p>
-																		<?php echo $function_GetAllNotifikasi['TEXT'][$i]; ?>
+																		<?php echo $function_GetAllNotifikasi['MESSAGE_TEXT'][$i]; ?><br/>
+																		<a href="process.php?module=VisitNotif&id=<?php echo $function_GetAllNotifikasi['ID'][$i]; ?>">Lihat Detail</a>
 																	</p>
 																</div>
 															</li>	

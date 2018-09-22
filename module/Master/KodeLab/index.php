@@ -5,7 +5,7 @@ include("../../../library/function_list.php");
 $repository_url = "../../../MASTER";
 ?>
 <!doctype html>
-<html class="fixed sidebar-light sidebar-left-collapsed">
+<html class="fixed sidebar-light ">
 	<head>
 
 		<!-- Basic -->
@@ -99,11 +99,10 @@ $repository_url = "../../../MASTER";
 										<table class="table table-bordered table-striped mb-0" id="datatable-default">
 											<thead>
 												<tr>
-													<th>No.</th>
+													<th>ID Sistem</th>
 													<th>Nama</th>
 													<th>Grup</th>
 													<th>Metoda</th>
-													<th>Status</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -114,11 +113,10 @@ $repository_url = "../../../MASTER";
 													
 													?>
 													<tr onclick="window.location='detail.php?id=<?php echo $function_GetAllKodeLab['ID'][$i] ;?>'">
-														<td><?php echo ($i+1);?></td>
-														<td><?php echo $function_GetAllKodeLab['NAMA'][$i];?></td>
-														<td><?php echo $function_GetAllKodeLab['GRUP1'][$i];?></td>
+														<td><?php echo $function_GetAllKodeLab['ID'][$i];?></td>
+														<td><?php echo $function_GetAllKodeLab['NAME'][$i];?></td>
+														<td><?php echo $function_GetAllKodeLab['GROUP_1'][$i];?></td>
 														<td><?php echo $function_GetAllKodeLab['METODA'][$i];?></td>
-														<td><?php echo $function_GetAllKodeLab['STATUS'][$i];?></td>
 													</tr>
 													<?php
 													

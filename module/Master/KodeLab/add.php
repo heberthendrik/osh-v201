@@ -5,7 +5,7 @@ include("../../../library/function_list.php");
 $repository_url = "../../../MASTER";
 ?>
 <!doctype html>
-<html class="fixed sidebar-light sidebar-left-collapsed">
+<html class="fixed sidebar-light ">
 	<head>
 
 		<!-- Basic -->
@@ -57,7 +57,7 @@ $repository_url = "../../../MASTER";
 
 				<section role="main" class="content-body card-margin">
 					<header class="page-header">
-						<h2>KodeLab</h2>
+						<h2>Kode Lab</h2>
 					
 						<div class="right-wrapper text-right">
 							<ol class="breadcrumbs">
@@ -99,37 +99,97 @@ $repository_url = "../../../MASTER";
 										<h2 class="card-title">Formulir Data Baru</h2>
 									</header>
 									<div class="card-body">
+									
+										<div class="row">
 										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Nama Kode Lab *</label>
 											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namakodelab" name="textNama" required >
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Nama Kode Lab *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textNama" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Group 1 *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textGroup1" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Group 2 *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textGroup2" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Group 3 *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textGroup3" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Satuan *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textSatuan" required >
+													</div>
+												</div>
 											</div>
+											<div class="col-lg-6">
+											
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Metoda *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textMetoda" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kode Lab *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textKodeLab" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kode LIS *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textKodeLis" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Koma *</label>
+													<div class="col-lg-8">
+														<input type="number" class="form-control" id="input_namakodelab" name="textKoma" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">YFormat *</label>
+													<div class="col-lg-8">
+														<input type="number" class="form-control" id="input_namakodelab" name="textYFormat" required >
+													</div>
+												</div>
+												
+												<div class="form-group row">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kode dari alat *</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namakodelab" name="textKodeDariAlat" required >
+													</div>
+												</div>
+											
+											</div>
+											
 										</div>
 										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Metoda *</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namakodelab" name="textMetoda" required >
-											</div>
-										</div>
 										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Grup *</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namakodelab" name="textGrup" required >
-											</div>
-										</div>
 										
-										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2">Status *</label>
-											<div class="col-lg-6">
-												<select class="form-control mb-3" id="input_status" name="selectStatus" required >
-													<option value="0" >Tidak Aktif</option>
-													<option value="1" >Aktif</option>
-												</select>
-											</div>
-										</div>
+										
+										
 										
 									</div>
 								</section>

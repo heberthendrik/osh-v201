@@ -127,9 +127,9 @@
 								<i class="fas fa-bell"></i>
 								<?php
 								global $db;
-								$query_get = "select * from public.tab_notifikasi where receiver = '".$_SESSION['OSH']['ID']."' order by created_at desc";
-								$result_get = pg_query($db, $query_get);
-								$num_get = pg_num_rows($result_get);
+								$query_get = "select * from notification where ID_MASTER_RECEIVER = '".$_SESSION['OSH']['COMPOSITE_ID']."' and is_read = 0 ";
+								$result_get = $db->query($query_get);
+								$num_get = $result_get->num_rows;
 								?>
 								<span class="badge"><?php echo $num_get;?></span>
 							</a>
@@ -142,7 +142,17 @@
 						<a href="#" data-toggle="dropdown">
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 								<span class="name"><?php echo $_SESSION['OSH']['NAME'];?></span>
-								<span class="role"><?php echo $_SESSION['OSH']['ROLES'];?></span>
+								<span class="role">
+								<?php 
+								
+								$query_roles = "select * from master_roles where ID = '".$_SESSION['OSH']['ID_ROLE']."'";
+								$result_roles = $db->query($query_roles);
+								$num_roles = $result_roles->num_rows;
+								$row_roles = $result_roles->fetch_assoc();
+								echo $roles_name = $row_roles['NAME'];
+								
+								?>
+								</span>
 							</div>
 			
 							<i class="fa custom-caret"></i>

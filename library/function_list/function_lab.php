@@ -175,11 +175,11 @@ function DeleteLabByID($input_parameter){
 function GetLabDetailByID($input_parameter){
 	global $db;
 	
-	$query_get = "select * from public.tab_lab_detil where id_master = '".$input_parameter['ID_MASTER']."' ";
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$query_get = "select * from lab_main where ID = '".$input_parameter['ID']."' ";
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $result_get->fetch_assoc() ){
 		
 		$array_id[] = $row_get['id'];
 		$array_idmaster[] = $row_get['id_master'];
@@ -265,10 +265,10 @@ function GetAllLabDetail(){
 	global $db;
 	
 	$query_get = "select * from public.tab_lab_detil";
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $result_get->fetch_assoc() ){
 		
 		$array_id[] = $row_get['id'];
 		$array_idmaster[] = $row_get['id_master'];
@@ -354,118 +354,92 @@ function GetAllLabDetail(){
 function GetLabMasterByID($input_parameter){
 	global $db;
 	
-	$query_get = "select * from public.tab_lab_master where id = '".$input_parameter['ID']."' ";
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$query_get = "select * from lab_main where id = '".$input_parameter['ID']."' ";
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-/* 	echo $query_get;exit; */
-
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $row_get = $result_get->fetch_assoc() ){
 		
-		$array_id[] = $row_get['id'];
-		$array_nolab[] = $row_get['no_lab'];
-		$array_norm[] = $row_get['no_rm'];
-		$array_umur[] = $row_get['umur'];
-		$array_umursat[] = $row_get['umur_sat'];
-		$array_usia[] = $row_get['usia'];
-		$array_nama[] = $row_get['nama'];
-		$array_sex[] = $row_get['sex'];
-		$array_alamat[] = $row_get['alamat'];
-		$array_tgllahir[] = $row_get['tgl_lahir'];
-		$array_idruang[] = $row_get['id_ruang'];
-		$array_nmruang[] = $row_get['nm_ruang'];
-		$array_idkelas[] = $row_get['id_kelas'];
-		$array_nmkelas[] = $row_get['nm_kelas'];
-		$array_idstatus[] = $row_get['id_status'];
-		$array_nmstatus[] = $row_get['nm_status'];
-		$array_iddokter[] = $row_get['id_dokter'];
-		$array_nmdokter[] = $row_get['nm_dokter'];
-		$array_alamatdokter[] = $row_get['alamat_dokter'];
-		$array_ketklinik[] = $row_get['ket_klinik'];
-		$array_catatan1[] = $row_get['catatan_1'];
-		$array_catatan2[] = $row_get['catatan_2'];
-		$array_idpengentri[] = $row_get['id_pengentri'];
-		$array_nmpengentri[] = $row_get['nm_pengentri'];
-		$array_idpemeriksa[] = $row_get['id_pemeriksa'];
-		$array_nmpemeriksa[] = $row_get['nm_pemeriksa'];
-		$array_dtpemeriksa[] = $row_get['dt_pemeriksa'];
-		$array_iddokteracc[] = $row_get['id_dokter_acc'];
-		$array_nmdokteracc[] = $row_get['nm_dokter_acc'];
-		$array_kdacc[] = $row_get['kd_acc'];
-		$array_dtacc[] = $row_get['dt_acc'];
-		$array_dtprint[] = $row_get['dt_print'];
-		$array_idrs[] = $row_get['id_rs'];
-		$array_createdat[] = $row_get['created_at'];
-		$array_updatedat[] = $row_get['udpated_at'];
-		$array_notrans[] = $row_get['no_trans'];
-		$array_dtbilling[] = $row_get['dt_billing'];
-		$array_umur1[] = $row_get['umur1'];
-		$array_umursat1[] = $row_get['umur_sat1'];
-		$array_kolchar1[] = $row_get['kol_char1'];
-		$array_kolchar2[] = $row_get['kol_char2'];
-		$array_kolchar3[] = $row_get['kol_char3'];
-		$array_kolnum1[] = $row_get['kol_num1'];
-		$array_periksajam[] = $row_get['periksa_jam'];
-		$array_accjam[] = $row_get['acc_jam'];
-		$array_printjam[] = $row_get['print_jam'];
-		$array_catatan3[] = $row_get['catatan_3'];
-		$array_catatan4[] = $row_get['catatan_4'];
-		$array_kdpemeriksa[] = $row_get['kd_pemeriksa'];
-		$array_overallstatus[] = $row_get['overall_status'];
-		
+		$array_id[] = $row_get['ID'];
+		$array_nolabprefix[] = $row_get['NO_LAB_PREFIX'];
+		$array_nolab[] = $row_get['NO_LAB'];
+		$array_idpatient[] = $row_get['ID_PATIENT'];
+		$array_norm[] = $row_get['NO_RM'];
+		$array_age[] = $row_get['AGE'];
+		$array_patientname[] = $row_get['PATIENT_NAME'];
+		$array_patientsex[] = $row_get['PATIENT_SEX'];
+		$array_patientaddress[] = $row_get['PATIENT_ADDRESS'];
+		$array_birthdate[] = $row_get['BIRTH_DATE'];
+		$array_idroom[] = $row_get['ID_ROOM'];
+		$array_roomname[] = $row_get['ROOM_NAME'];
+		$array_idkelas[] = $row_get['ID_KELAS'];
+		$array_kelasname[] = $row_get['KELAS_NAME'];
+		$array_idstatus[] = $row_get['ID_STATUS'];
+		$array_statusname[] = $row_get['STATUS_NAME'];
+		$array_isinternaldoctor[] = $row_get['IS_INTERNAL_DOCTOR'];
+		$array_iddoctorsender[] = $row_get['ID_DOCTOR_SENDER'];
+		$array_doctorsendername[] = $row_get['DOCTOR_SENDER_NAME'];
+		$array_doctorsenderaddress[] = $row_get['DOCTOR_SENDER_ADDRESS'];
+		$array_ketklinik[] = $row_get['KET_KLINIK'];
+		$array_note1[] = $row_get['NOTE_1'];
+		$array_note2[] = $row_get['NOTE_2'];
+		$array_idmasteruserlabcreation[] = $row_get['ID_MASTER_USER_LAB_CREATION'];
+		$array_masteruserlabcreationname[] = $row_get['MASTER_USER_LAB_CREATION_NAME'];
+		$array_iddoctorassigned[] = $row_get['ID_DOCTOR_ASSIGNED'];
+		$array_accat[] = $row_get['ACC_AT'];
+		$array_iddokteracc[] = $row_get['ID_DOCTOR_ACC'];
+		$array_nmdokteracc[] = $row_get['DOCTOR_ACC_NAME'];
+		$array_rejectedat[] = $row_get['REJECTED_AT'];
+		$array_iddoctorrejection[] = $row_get['ID_DOCTOR_REJECTION'];
+		$array_doctorrejectionname[] = $row_get['DOCTOR_REJECTION_NAME'];
+		$array_idrs[] = $row_get['ID_RS'];
+		$array_overallstatus[] = $row_get['OVERALL_STATUS'];
+		$array_createdat[] = $row_get['CREATED_AT'];
+		$array_updatedat[] = $row_get['UPDATED_AT'];
+		$array_createdby[] = $row_get['CREATED_BY'];
+		$array_updatedby[] = $row_get['UDPATED_BY'];
 	}
 	
 	$grand_array['TOTAL_ROW'] = $num_get;
+	
 	$grand_array['ID'] = $array_id;
+	$grand_array['NO_LAB_PREFIX'] = $array_nolabprefix;
 	$grand_array['NO_LAB'] = $array_nolab;
+	$grand_array['ID_PATIENT'] = $array_idpatient;
 	$grand_array['NO_RM'] = $array_norm;
-	$grand_array['UMUR'] = $array_umur;
-	$grand_array['UMUR_SAT'] = $array_umursat;
-	$grand_array['USIA'] = $array_usia;
-	$grand_array['NAMA'] = $array_nama;
-	$grand_array['SEX'] = $array_sex;
-	$grand_array['ALAMAT'] = $array_alamat;
-	$grand_array['TGL_LAHIR'] = $array_tgllahir;
-	$grand_array['ID_RUANG'] = $array_idruang;
-	$grand_array['NM_RUANG'] = $array_nmruang;
+	$grand_array['AGE'] = $array_age;
+	$grand_array['PATIENT_NAME'] = $array_patientname;
+	$grand_array['PATIENT_SEX'] = $array_patientsex;
+	$grand_array['PATIENT_ADDRESS'] = $array_patientaddress;
+	$grand_array['BIRTH_DATE'] = $array_birthdate;
+	$grand_array['ID_ROOM'] = $array_idroom;
+	$grand_array['ROOM_NAME'] = $array_roomname;
 	$grand_array['ID_KELAS'] = $array_idkelas;
-	$grand_array['NM_KELAS'] = $array_nmkelas;
+	$grand_array['KELAS_NAME'] = $array_kelasname;
 	$grand_array['ID_STATUS'] = $array_idstatus;
-	$grand_array['NM_STATUS'] = $array_nmstatus;
-	$grand_array['ID_DOKTER'] = $array_iddokter;
-	$grand_array['NM_DOKTER'] = $array_nmdokter;
-	$grand_array['ALAMAT_DOKTER'] = $array_alamatdokter;
+	$grand_array['STATUS_NAME'] = $array_statusname;
+	$grand_array['IS_INTERNAL_DOCTOR'] = $array_isinternaldoctor;
+	$grand_array['ID_DOCTOR_SENDER'] = $array_iddoctorsender;
+	$grand_array['DOCTOR_SENDER_NAME'] = $array_doctorsendername;
+	$grand_array['DOCTOR_SENDER_ADDRESS'] = $array_doctorsenderaddress;
 	$grand_array['KET_KLINIK'] = $array_ketklinik;
-	$grand_array['CATATAN_1'] = $array_catatan1;
-	$grand_array['CATATAN_2'] = $array_catatan2;
-	$grand_array['ID_PENGENTRI'] = $array_idpengentri;
-	$grand_array['NM_PENGENTRI'] = $array_nmpengentri;
-	$grand_array['ID_PEMERIKSA'] = $array_idpemeriksa;
-	$grand_array['NM_PEMERIKSA'] = $array_nmpemeriksa;
-	$grand_array['DT_PEMERIKSA'] = $array_dtpemeriksa;
-	$grand_array['ID_DOKTER_ACC'] =	$array_iddokteracc;
-	$grand_array['NM_DOKTER_ACC'] = $array_nmdokteracc;
-	$grand_array['KD_ACC'] = $array_kdacc;
-	$grand_array['DT_ACC'] = $array_dtacc;
-	$grand_array['DT_PRINT'] = $array_dtprint;
+	$grand_array['NOTE_1'] = $array_note1;
+	$grand_array['NOTE_2'] = $array_note2;
+	$grand_array['ID_MASTER_USER_LAB_CREATION'] = $array_idmasteruserlabcreation;
+	$grand_array['MASTER_USER_LAB_CREATION_NAME'] = $array_masteruserlabcreationname;
+	$grand_array['ID_DOCTOR_ASSIGNED'] = $array_iddoctorassigned;
+	$grand_array['ACC_AT'] = $array_accat;
+	$grand_array['ID_DOCTOR_ACC'] = $array_iddokteracc;
+	$grand_array['DOCTOR_ACC_NAME'] = $array_nmdokteracc;
+	$grand_array['REJECTED_AT'] = $array_rejectedat;
+	$grand_array['ID_DOCTOR_REJECTION'] = $array_iddoctorrejection;
+	$grand_array['DOCTOR_REJECTION_NAME'] = $array_doctorrejectionname;
 	$grand_array['ID_RS'] = $array_idrs;
+	$grand_array['OVERALL_STATUS'] = $array_overallstatus;
 	$grand_array['CREATED_AT'] = $array_createdat;
 	$grand_array['UDPATED_AT'] = $array_updatedat;
-	$grand_array['NO_TRANS'] = $array_notrans;
-	$grand_array['DT_BILLING'] = $array_dtbilling;
-	$grand_array['UMUR1'] =	$array_umur1;
-	$grand_array['UMUR_SAT1'] = $array_umursat1;
-	$grand_array['KOL_CHAR1'] = $array_kolchar1;
-	$grand_array['KOL_CHAR2'] = $array_kolchar2;
-	$grand_array['KOL_CHAR3'] =	$array_kolchar3;
-	$grand_array['KOL_NUM1'] = $array_kolnum1;
-	$grand_array['PERIKSA_JAM'] = $array_periksajam;
-	$grand_array['ACC_JAM'] = $array_accjam;
-	$grand_array['PRINT_JAM'] = $array_printjam;
-	$grand_array['CATATAN_3'] = $array_catatan3;
-	$grand_array['CATATAN_4'] = $array_catatan4;
-	$grand_array['KD_PEMERIKSA'] = $array_kdpemeriksa;
-	$grand_array['OVERALL_STATUS'] = $array_overallstatus;
+	$grand_array['CREATED_BY'] = $array_createdby;
+	$grand_array['UPDATED_BY'] = $array_updatedby;
 	
 	return $grand_array;
 
@@ -474,121 +448,97 @@ function GetLabMasterByID($input_parameter){
 function GetAllLabMaster(){
 	global $db;
 	
-	if( $_SESSION['OSH']['ROLES'] == 'superadmin' ){
-		$query_get = "select * from public.tab_lab_master";
+	if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
+		$query_get = "select * from lab_main";
 	} else {
-		$query_get = "select * from public.tab_lab_master where id_rs = '".$_SESSION['OSH']['ID_RS']."' ";
+		$query_get = "select * from lab_main where ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
 	}
 
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $row_get = $result_get->fetch_assoc() ){
 		
-		$array_id[] = $row_get['id'];
-		$array_nolab[] = $row_get['no_lab'];
-		$array_norm[] = $row_get['no_rm'];
-		$array_umur[] = $row_get['umur'];
-		$array_umursat[] = $row_get['umur_sat'];
-		$array_usia[] = $row_get['usia'];
-		$array_nama[] = $row_get['nama'];
-		$array_sex[] = $row_get['sex'];
-		$array_alamat[] = $row_get['alamat'];
-		$array_tgllahir[] = $row_get['tgl_lahir'];
-		$array_idruang[] = $row_get['id_ruang'];
-		$array_nmruang[] = $row_get['nm_ruang'];
-		$array_idkelas[] = $row_get['id_kelas'];
-		$array_nmkelas[] = $row_get['nm_kelas'];
-		$array_idstatus[] = $row_get['id_status'];
-		$array_nmstatus[] = $row_get['nm_status'];
-		$array_iddokter[] = $row_get['id_dokter'];
-		$array_nmdokter[] = $row_get['nm_dokter'];
-		$array_alamatdokter[] = $row_get['alamat_dokter'];
-		$array_ketklinik[] = $row_get['ket_klinik'];
-		$array_catatan1[] = $row_get['catatan_1'];
-		$array_catatan2[] = $row_get['catatan_2'];
-		$array_idpengentri[] = $row_get['id_pengentri'];
-		$array_nmpengentri[] = $row_get['nm_pengentri'];
-		$array_idpemeriksa[] = $row_get['id_pemeriksa'];
-		$array_nmpemeriksa[] = $row_get['nm_pemeriksa'];
-		$array_dtpemeriksa[] = $row_get['dt_pemeriksa'];
-		$array_iddokteracc[] = $row_get['id_dokter_acc'];
-		$array_nmdokteracc[] = $row_get['nm_dokter_acc'];
-		$array_kdacc[] = $row_get['kd_acc'];
-		$array_dtacc[] = $row_get['dt_acc'];
-		$array_dtprint[] = $row_get['dt_print'];
-		$array_idrs[] = $row_get['id_rs'];
-		$array_createdat[] = $row_get['created_at'];
-		$array_updatedat[] = $row_get['udpated_at'];
-		$array_notrans[] = $row_get['no_trans'];
-		$array_dtbilling[] = $row_get['dt_billing'];
-		$array_umur1[] = $row_get['umur1'];
-		$array_umursat1[] = $row_get['umur_sat1'];
-		$array_kolchar1[] = $row_get['kol_char1'];
-		$array_kolchar2[] = $row_get['kol_char2'];
-		$array_kolchar3[] = $row_get['kol_char3'];
-		$array_kolnum1[] = $row_get['kol_num1'];
-		$array_periksajam[] = $row_get['periksa_jam'];
-		$array_accjam[] = $row_get['acc_jam'];
-		$array_printjam[] = $row_get['print_jam'];
-		$array_catatan3[] = $row_get['catatan_3'];
-		$array_catatan4[] = $row_get['catatan_4'];
-		$array_kdpemeriksa[] = $row_get['kd_pemeriksa'];
-		$array_overallstatus[] = $row_get['overall_status'];
-		
+		$array_id[] = $row_get['ID'];
+		$array_nolabprefix[] = $row_get['NO_LAB_PREFIX'];
+		$array_nolab[] = $row_get['NO_LAB'];
+		$array_idpatient[] = $row_get['ID_PATIENT'];
+		$array_norm[] = $row_get['NO_RM'];
+		$array_age[] = $row_get['AGE'];
+		$array_patientname[] = $row_get['PATIENT_NAME'];
+		$array_patientsex[] = $row_get['PATIENT_SEX'];
+		$array_patientaddress[] = $row_get['PATIENT_ADDRESS'];
+		$array_birthdate[] = $row_get['BIRTH_DATE'];
+		$array_idroom[] = $row_get['ID_ROOM'];
+		$array_roomname[] = $row_get['ROOM_NAME'];
+		$array_idkelas[] = $row_get['ID_KELAS'];
+		$array_kelasname[] = $row_get['KELAS_NAME'];
+		$array_idstatus[] = $row_get['ID_STATUS'];
+		$array_statusname[] = $row_get['STATUS_NAME'];
+		$array_isinternaldoctor[] = $row_get['IS_INTERNAL_DOCTOR'];
+		$array_iddoctorsender[] = $row_get['ID_DOCTOR_SENDER'];
+		$array_doctorsendername[] = $row_get['DOCTOR_SENDER_NAME'];
+		$array_doctorsenderaddress[] = $row_get['DOCTOR_SENDER_ADDRESS'];
+		$array_ketklinik[] = $row_get['KET_KLINIK'];
+		$array_note1[] = $row_get['NOTE_1'];
+		$array_note2[] = $row_get['NOTE_2'];
+		$array_idmasteruserlabcreation[] = $row_get['ID_MASTER_USER_LAB_CREATION'];
+		$array_masteruserlabcreationname[] = $row_get['MASTER_USER_LAB_CREATION_NAME'];
+		$array_iddoctorassigned[] = $row_get['ID_DOCTOR_ASSIGNED'];
+		$array_accat[] = $row_get['ACC_AT'];
+		$array_iddokteracc[] = $row_get['ID_DOCTOR_ACC'];
+		$array_nmdokteracc[] = $row_get['DOCTOR_ACC_NAME'];
+		$array_rejectedat[] = $row_get['REJECTED_AT'];
+		$array_iddoctorrejection[] = $row_get['ID_DOCTOR_REJECTION'];
+		$array_doctorrejectionname[] = $row_get['DOCTOR_REJECTION_NAME'];
+		$array_idrs[] = $row_get['ID_RS'];
+		$array_overallstatus[] = $row_get['OVERALL_STATUS'];
+		$array_createdat[] = $row_get['CREATED_AT'];
+		$array_updatedat[] = $row_get['UPDATED_AT'];
+		$array_createdby[] = $row_get['CREATED_BY'];
+		$array_updatedby[] = $row_get['UDPATED_BY'];
 	}
 	
 	$grand_array['TOTAL_ROW'] = $num_get;
+	
 	$grand_array['ID'] = $array_id;
+	$grand_array['NO_LAB_PREFIX'] = $array_nolabprefix;
 	$grand_array['NO_LAB'] = $array_nolab;
+	$grand_array['ID_PATIENT'] = $array_idpatient;
 	$grand_array['NO_RM'] = $array_norm;
-	$grand_array['UMUR'] = $array_umur;
-	$grand_array['UMUR_SAT'] = $array_umursat;
-	$grand_array['USIA'] = $array_usia;
-	$grand_array['NAMA'] = $array_nama;
-	$grand_array['SEX'] = $array_sex;
-	$grand_array['ALAMAT'] = $array_alamat;
-	$grand_array['TGL_LAHIR'] = $array_tgllahir;
-	$grand_array['ID_RUANG'] = $array_idruang;
-	$grand_array['NM_RUANG'] = $array_nmruang;
+	$grand_array['AGE'] = $array_age;
+	$grand_array['PATIENT_NAME'] = $array_patientname;
+	$grand_array['PATIENT_SEX'] = $array_patientsex;
+	$grand_array['PATIENT_ADDRESS'] = $array_patientaddress;
+	$grand_array['BIRTH_DATE'] = $array_birthdate;
+	$grand_array['ID_ROOM'] = $array_idroom;
+	$grand_array['ROOM_NAME'] = $array_roomname;
 	$grand_array['ID_KELAS'] = $array_idkelas;
-	$grand_array['NM_KELAS'] = $array_nmkelas;
+	$grand_array['KELAS_NAME'] = $array_kelasname;
 	$grand_array['ID_STATUS'] = $array_idstatus;
-	$grand_array['NM_STATUS'] = $array_nmstatus;
-	$grand_array['ID_DOKTER'] = $array_iddokter;
-	$grand_array['NM_DOKTER'] = $array_nmdokter;
-	$grand_array['ALAMAT_DOKTER'] = $array_alamatdokter;
+	$grand_array['STATUS_NAME'] = $array_statusname;
+	$grand_array['IS_INTERNAL_DOCTOR'] = $array_isinternaldoctor;
+	$grand_array['ID_DOCTOR_SENDER'] = $array_iddoctorsender;
+	$grand_array['DOCTOR_SENDER_NAME'] = $array_doctorsendername;
+	$grand_array['DOCTOR_SENDER_ADDRESS'] = $array_doctorsenderaddress;
 	$grand_array['KET_KLINIK'] = $array_ketklinik;
-	$grand_array['CATATAN_1'] = $array_catatan1;
-	$grand_array['CATATAN_2'] = $array_catatan2;
-	$grand_array['ID_PENGENTRI'] = $array_idpengentri;
-	$grand_array['NM_PENGENTRI'] = $array_nmpengentri;
-	$grand_array['ID_PEMERIKSA'] = $array_idpemeriksa;
-	$grand_array['NM_PEMERIKSA'] = $array_nmpemeriksa;
-	$grand_array['DT_PEMERIKSA'] = $array_dtpemeriksa;
-	$grand_array['ID_DOKTER_ACC'] =	$array_iddokteracc;
-	$grand_array['NM_DOKTER_ACC'] = $array_nmdokteracc;
-	$grand_array['KD_ACC'] = $array_kdacc;
-	$grand_array['DT_ACC'] = $array_dtacc;
-	$grand_array['DT_PRINT'] = $array_dtprint;
+	$grand_array['NOTE_1'] = $array_note1;
+	$grand_array['NOTE_2'] = $array_note2;
+	$grand_array['ID_MASTER_USER_LAB_CREATION'] = $array_idmasteruserlabcreation;
+	$grand_array['MASTER_USER_LAB_CREATION_NAME'] = $array_masteruserlabcreationname;
+	$grand_array['ID_DOCTOR_ASSIGNED'] = $array_iddoctorassigned;
+	$grand_array['ACC_AT'] = $array_accat;
+	$grand_array['ID_DOCTOR_ACC'] = $array_iddokteracc;
+	$grand_array['DOCTOR_ACC_NAME'] = $array_nmdokteracc;
+	$grand_array['REJECTED_AT'] = $array_rejectedat;
+	$grand_array['ID_DOCTOR_REJECTION'] = $array_iddoctorrejection;
+	$grand_array['DOCTOR_REJECTION_NAME'] = $array_doctorrejectionname;
 	$grand_array['ID_RS'] = $array_idrs;
+	$grand_array['OVERALL_STATUS'] = $array_overallstatus;
 	$grand_array['CREATED_AT'] = $array_createdat;
 	$grand_array['UDPATED_AT'] = $array_updatedat;
-	$grand_array['NO_TRANS'] = $array_notrans;
-	$grand_array['DT_BILLING'] = $array_dtbilling;
-	$grand_array['UMUR1'] =	$array_umur1;
-	$grand_array['UMUR_SAT1'] = $array_umursat1;
-	$grand_array['KOL_CHAR1'] = $array_kolchar1;
-	$grand_array['KOL_CHAR2'] = $array_kolchar2;
-	$grand_array['KOL_CHAR3'] =	$array_kolchar3;
-	$grand_array['KOL_NUM1'] = $array_kolnum1;
-	$grand_array['PERIKSA_JAM'] = $array_periksajam;
-	$grand_array['ACC_JAM'] = $array_accjam;
-	$grand_array['PRINT_JAM'] = $array_printjam;
-	$grand_array['CATATAN_3'] = $array_catatan3;
-	$grand_array['CATATAN_4'] = $array_catatan4;
-	$grand_array['KD_PEMERIKSA'] = $array_kdpemeriksa;
-	$grand_array['OVERALL_STATUS'] = $array_overallstatus;
+	$grand_array['CREATED_BY'] = $array_createdby;
+	$grand_array['UPDATED_BY'] = $array_updatedby;
 	
 	return $grand_array;
 }
@@ -596,8 +546,17 @@ function GetAllLabMaster(){
 function ACCHasilLab($input_parameter){
 	global $db;
 	
-	$query_acc = "update public.tab_lab_master set overall_status = 2 where id = '".$input_parameter['ID']."'";
-	$result_acc = pg_query($db, $query_acc);
+	$query_acc = 
+	"
+	update lab_main 
+	set 
+		overall_status = 2,
+		ACC_AT = '".date('Y-m-d H:i:s')."',
+		ID_DOCTOR_ACC = '".$_SESSION['OSH']['COMPOSITE_ID']."',
+		DOCTOR_ACC_NAME = '".$_SESSION['OSH']['NAME']."'
+	where id = '".$input_parameter['ID']."'
+	";
+	$result_acc = $db->query($query_acc);
 	
 	$function_result['FUNCTION_RESULT'] = 1;
 	$function_result['SYSTEM_MESSAGE'] = "Lab (".$input_parameter['ID'].") telah berhasil di acc.";
@@ -608,8 +567,17 @@ function ACCHasilLab($input_parameter){
 function TolakHasilLab($input_parameter){
 	global $db;
 	
-	$query_acc = "update public.tab_lab_master set overall_status = 3 where id = '".$input_parameter['ID']."'";
-	$result_acc = pg_query($db, $query_acc);
+	$query_acc = 
+	"
+	update lab_main 
+	set 
+		overall_status = 3,
+		REJECTED_AT = '".date('Y-m-d H:i:s')."',
+		ID_DOCTOR_REJECTION = '".$_SESSION['OSH']['COMPOSITE_ID']."',
+		DOCTOR_REJECTION_NAME = '".$_SESSION['OSH']['NAME']."'
+	where id = '".$input_parameter['ID']."'
+	";
+	$result_acc = $db->query($query_acc);
 	
 	$function_result['FUNCTION_RESULT'] = 1;
 	$function_result['SYSTEM_MESSAGE'] = "Lab (".$input_parameter['ID'].") telah berhasil ditolak.";
@@ -629,6 +597,175 @@ function EmptyLab(){
 	$function_result['RESULT'] = 1;
 	$function_result['MESSAGE'] = "Semua lab point telah berhasil dihapus.";
 	
+	return $function_result;
+}
+
+function AddTemporaryLabNumber(){
+	global $db;
+	
+	$query_getmax = "select max(id) as ID_TERAKHIR from lab_main";
+	$result_getmax = $db->query($query_getmax);
+	$row_getmax = $result_getmax->fetch_assoc();
+	$last_id = $row_getmax['ID_TERAKHIR'];
+	
+	$new_id = $last_id+1;
+	$query_add_temporary = "insert into lab_main (ID) values('".$new_id."')";
+	$result_add_temporary = $db->query($query_add_temporary);
+	$new_id = $db->insert_id;
+	
+	$function_result['NEW_ID'] = $new_id;
+	
+	return $function_result;
+	
+}
+
+function InputLabTahap1($input_parameter){
+	global $db;
+	
+	$input_parameter_patient['ID'] = $input_parameter['ID_PATIENT'];
+	$function_GetPatientByID = GetPasienByID($input_parameter_patient);
+	
+	$input_parameter_calculateage['DATE_START'] = $function_GetPatientByID['BIRTH_DATE'][0];
+	$function_CalculateAge = CalculateAge($input_parameter_calculateage);
+	
+	$query_update = 
+	"
+	update lab_main set 
+		ID_PATIENT = '".$function_GetPatientByID['ID'][0]."',
+		NO_RM = '".$function_GetPatientByID['NO_RM'][0]."',
+		AGE = '".$function_CalculateAge."',
+		PATIENT_NAME = '".$function_GetPatientByID['NAME'][0]."',
+		PATIENT_SEX = '".$function_GetPatientByID['SEX'][0]."',
+		PATIENT_ADDRESS = '".$function_GetPatientByID['ADDRESS'][0]."',
+		BIRTH_DATE = '".$function_GetPatientByID['BIRTH_DATE'][0]."',
+		ID_RS = '".$function_GetPatientByID['ID_RS'][0]."'
+	where
+		ID = '".$input_parameter['ID']."'
+	";
+	$result_update = $db->query($query_update);
+}
+
+function InputLabTahap2_Internal($input_parameter){
+	global $db;
+	
+	$input_parameter_doctor['ID'] = $input_parameter['ID_DOCTOR'];
+	$function_GetDoctorByID = GetDokterByID($input_parameter_doctor);
+	
+	$input_parameter_hospital['ID'] = $function_GetDoctorByID['ID_RS'][0];
+	$function_GetRumahSakitByID = GetRumahSakitByID($input_parameter_hospital);
+	
+	$query_update = "
+	update lab_main set
+		IS_INTERNAL_DOCTOR = 1,
+		ID_DOCTOR_SENDER = '".$function_GetDoctorByID['ID'][0]."',
+		DOCTOR_SENDER_NAME = '".$function_GetDoctorByID['NAME'][0]."',
+		DOCTOR_SENDER_ADDRESS = '".$function_GetRumahSakitByID['ADDRESS'][0]."'
+	where
+		ID = '".$input_parameter['ID']."'
+	";
+	$result_update = $db->query($query_update);
+	
+}
+
+function InputLabTahap2_Eksternal($input_parameter){
+	global $db;
+	
+	$query_update = "
+	update lab_main set
+		IS_INTERNAL_DOCTOR = 0,
+		ID_DOCTOR_SENDER = null,
+		DOCTOR_SENDER_NAME = '".$input_parameter['DOCTOR_SENDER_NAME']."',
+		DOCTOR_SENDER_ADDRESS = '".$input_parameter['DOCTOR_SENDER_ADDRESS']."'
+	where
+		ID = '".$input_parameter['ID']."'
+	";
+
+	$result_update = $db->query($query_update);
+	
+}
+
+function InputLabTahap3($input_parameter){
+	global $db;
+	
+	$input_parameter_ruang['ID'] = $input_parameter['ID_RUANG'];
+	$function_GetRuangByID = GetRuangByID($input_parameter_ruang);
+	
+	$input_parameter_kelas['ID'] = $input_parameter['ID_KELAS'];
+	$function_GetKelasByID = GetKelasByID($input_parameter_kelas);
+	
+	$input_parameter_status['ID'] = $input_parameter['ID_STATUS'];
+	$function_GetStatusByID = GetStatusByID($input_parameter_status);
+	
+	$query_update = 
+	"
+	update lab_main set
+		ID_ROOM = '".$input_parameter['ID_RUANG']."',
+		ROOM_NAME = '".$function_GetRuangByID['NAMA'][0]."',
+		ID_KELAS = '".$input_parameter['ID_KELAS']."',
+		KELAS_NAME = '".$function_GetKelasByID['NAMA'][0]."',
+		ID_STATUS = '".$input_parameter['ID_STATUS']."',
+		ID_DOCTOR_ASSIGNED = '".$input_parameter['ID_DOCTOR_ASSIGNED']."',
+		STATUS_NAME = '".$function_GetStatusByID['NAMA'][0]."',
+		KET_KLINIK = '".$input_parameter['KET_KLINIK']."',
+		NOTE_1 = '".$input_parameter['CATATAN_1']."',
+		NOTE_2 = '".$input_parameter['CATATAN_2']."'
+	where
+		ID = '".$input_parameter['ID']."'
+	";
+	//echo $query_update;exit;
+	$result_udpate = $db->query($query_update);
+	
+	if( $result_udpate ){
+		$function_result['FUNCTION_RESULT'] = 1;
+	} else {
+		$function_result['FUNCTION_RESULT'] = 0;
+	}
+	
+	return $function_result;
+	
+}
+
+function FinalizeInputLab($input_parameter){
+	global $db;
+	
+	$query_getmaxnolab = "select max(NO_LAB) as last_id_oftheday from lab_main where no_lab_prefix = '".date('Ymd')."'";
+	$result_getmaxnolab = $db->query($query_getmaxnolab);
+	$row_getmaxnolab = $result_getmaxnolab->fetch_assoc();
+	$last_id = $row_getmaxnolab['last_id_oftheday'];
+	$new_id = $last_id + 1;
+	
+	if( strlen($new_id) == 1 ){
+		$new_id = '00'.$new_id;
+	} else if( strlen($new_id) == 2 ){
+		$new_id = '00'.$new_id;
+	} else if( strlen($new_id) == 3 ){
+		$new_id = $new_id;
+	}
+	
+	$query_update = 
+	"
+	update lab_main
+	set 
+		ID_MASTER_USER_LAB_CREATION = '".$_SESSION['OSH']['COMPOSITE_ID']."',
+		MASTER_USER_LAB_CREATION_NAME = '".$_SESSION['OSH']['NAME']."',
+		OVERALL_STATUS = 1,
+		NO_LAB_PREFIX = '".date('Ymd')."',
+		NO_LAB = '".$new_id."',
+		CREATED_AT = '".date('Y-m-d H:i:s')."',
+		CREATED_BY = '".$_SESSION['OSH']['COMPOSITE_ID']."'
+	where
+		ID = '".$input_parameter['ID']."'
+	";
+	$result_udpate = $db->query($query_update);
+	
+	if( $result_udpate ){
+		$function_result['FUNCTION_RESULT'] = 1;
+		$function_result['SYSTEM_MESSAGE'] = "Data lab telah berhasil ditambahkan." ;
+	} else {
+		$function_result['FUNCTION_RESULT'] = 0;
+		$function_result['SYSTEM_MESSAGE'] = "Penambahan data gagal. Silahkan hubungi adminsitrator." ;
+	}
+		
 	return $function_result;
 }
 

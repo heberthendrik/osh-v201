@@ -15,6 +15,7 @@ include('function_list/function_status.php');
 include('function_list/function_dokter.php');
 include('function_list/function_pasien.php');
 include('function_list/function_petugas.php');
+include('function_list/function_admin.php');
 include('function_list/function_barang.php');
 include('function_list/function_kategori.php');
 include('function_list/function_satuan.php');

@@ -6,9 +6,10 @@ $repository_url = "../../MASTER";
 $current_id = $_GET['id'];
 $lab_parameter['ID'] = $current_id;
 $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
+
 ?>
 <!doctype html>
-<html class="fixed sidebar-light sidebar-left-collapsed">
+<html class="fixed sidebar-light ">
 	<head>
 
 		<!-- Basic -->
@@ -60,7 +61,18 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 
 				<section role="main" class="content-body card-margin">
 					<header class="page-header">
-						<h2>Hasil Lab - <span style="color:red;"><?php echo rtrim($function_GetLabMasterByID['ID'][0]);?></span> - <span style="color:red;"><?php echo rtrim($function_GetLabMasterByID['NAMA'][0]);?></span> </h2>
+						<?php
+						if( strlen($function_GetLabMasterByID['NO_LAB'][0]) == 1 ){
+							$function_GetLabMasterByID['NO_LAB'][0] = '00'.$function_GetLabMasterByID['NO_LAB'][0];
+						} else if( strlen($function_GetLabMasterByID['NO_LAB'][0]) == 2 ){
+							$function_GetLabMasterByID['NO_LAB'][0] = '00'.$function_GetLabMasterByID['NO_LAB'][0];
+						} else if( strlen($function_GetLabMasterByID['NO_LAB'][0]) == 3 ){
+							$function_GetLabMasterByID['NO_LAB'][0] = $function_GetLabMasterByID['NO_LAB'][0];
+						}
+						
+						$display_nolab = $function_GetLabMasterByID['NO_LAB_PREFIX'][0].$function_GetLabMasterByID['NO_LAB'][0];
+						?>
+						<h2>Hasil Lab - <span style="color:red;"><?php echo $display_nolab;?></span> - <span style="color:red;"><?php echo rtrim($function_GetLabMasterByID['PATIENT_NAME'][0]);?></span> </h2>
 					
 						<div class="right-wrapper text-right">
 							<ol class="breadcrumbs">
@@ -89,7 +101,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 									<header class="card-header" style="text-align:right;">
 <!-- 										<button type="submit" class="btn btn-primary">Simpan</button> -->
 										<?php
-										if( $function_GetLabMasterByID['OVERALL_STATUS'][0] == 1 && $_SESSION['OSH']['ROLES'] == 'doctor' ){
+										if( $function_GetLabMasterByID['OVERALL_STATUS'][0] == 1 && $_SESSION['OSH']['ID_ROLE'] == 4 ){
 											?>
 											<a class="modal-basic btn btn-success" href="#modalACC">ACC</a>		
 											<a class="modal-basic btn btn-danger" href="#modalTolak">Tolak</a>		
@@ -176,7 +188,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 								<section class="card">
 									<header class="card-header">
 										<h2 class="card-title">Data Lab</h2>
-										<img alt="<?php echo $_GET['id'];?>" src="../../library/barcode.php?text=<?php echo $_GET['id'];?>" style="float:right;margin-top:-30px;margin-bottom:-10px;" />
+										<img alt="<?php echo $_GET['id'];?>" src="../../library/barcode.php?text=<?php echo $display_nolab;?>" style="float:right;margin-top:-30px;margin-bottom:-10px;" />
 									</header>
 									<div class="card-body">
 										
@@ -184,37 +196,30 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 											<div class="col-lg-6">
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Tanggal</label>
-													<div class="col-lg-6">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Tanggal</label>
+													<div class="col-lg-8">
 														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['CREATED_AT'][0]);?>" disabled >
 													</div>
 												</div>
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No. Rekam Medis</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NO_RM'][0]);?>" disabled >
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No. Lab</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($display_nolab);?>" disabled >
 													</div>
 												</div>
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No. Lab</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NO_LAB'][0]);?>" disabled >
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Ruang</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['ROOM_NAME'][0]);?>" disabled >
 													</div>
 												</div>
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Ruang</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NM_RUANG'][0]);?>" disabled >
-													</div>
-												</div>
-												
-												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Kelas</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NM_KELAS'][0]);?>" disabled >
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Kelas</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['KELAS_NAME'][0]);?>" disabled >
 													</div>
 												</div>
 												
@@ -222,30 +227,30 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 											<div class="col-lg-6">
 											
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Status</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NM_STATUS'][0]);?>" disabled >
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Status</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['STATUS_NAME'][0]);?>" disabled >
 													</div>
 												</div>
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Ket Klinik</label>
-													<div class="col-lg-6">
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Ket Klinik</label>
+													<div class="col-lg-8">
 														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['KET_KLINIK'][0]);?>" disabled >
 													</div>
 												</div>
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Catatan 1</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['CATATAN_1'][0]);?>" disabled >
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Catatan 1</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NOTE_1'][0]);?>" disabled >
 													</div>
 												</div>
 												
 												<div class="form-group row">
-													<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Catatan 2</label>
-													<div class="col-lg-6">
-														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['CATATAN_2'][0]);?>" disabled >
+													<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Catatan 2</label>
+													<div class="col-lg-8">
+														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NOTE_2'][0]);?>" disabled >
 													</div>
 												</div>
 											
@@ -266,34 +271,58 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 							<div class="col-lg-6">
 								<section class="card">
 									<header class="card-header">
-										<h2 class="card-title">Data Dokter</h2>
+										<h2 class="card-title">
+											Data Dokter Pengirim 
+											<?php
+											if( $function_GetLabMasterByID['IS_INTERNAL_DOCTOR'][0] == 1 ){
+												?>
+												- <span style="color:red;"><strong>[INTERNAL]</strong></span>
+												<?php
+											} else {
+												?>
+												- <span style="color:red;"><strong>[EKSTERNAL]</strong></span>
+												<?php
+											}
+											?>
+										</h2>
 									</header>
 									<div class="card-body">
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Dokter Pengirim</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NM_DOKTER'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Dokter Pengirim</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['DOCTOR_SENDER_NAME'][0]);?>" disabled >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Alamat Dokter</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['ALAMAT_DOKTER'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Alamat Dokter</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['DOCTOR_SENDER_ADDRESS'][0]);?>" disabled >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Dokter ACC</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NM_DOKTER_ACC'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Dokter Pemeriksa</label>
+											<div class="col-lg-8">
+												<?php
+													$input_parameter_iddokterassigned['ID'] = $function_GetLabMasterByID['ID_DOCTOR_ASSIGNED'][0];
+													$functionx_GetDokterByID = GetDokterByID($input_parameter_iddokterassigned);
+												?>
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($functionx_GetDokterByID['NAME'][0]);?>" disabled >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Pemeriksa</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NM_PEMERIKSA'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Dokter ACC</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['DOCTOR_ACC_NAME'][0]);?>" disabled >
+											</div>
+										</div>
+										
+										<div class="form-group row">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Petugas</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['MASTER_USER_LAB_CREATION_NAME'][0]);?>" disabled >
 											</div>
 										</div>
 									</div>
@@ -305,31 +334,40 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 										<h2 class="card-title">Data Pasien</h2>
 									</header>
 									<div class="card-body">
+										
+												
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Nama</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NAMA'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No. Rekam Medis</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['NO_RM'][0]);?>" disabled >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Tanggal Lahir</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['TGL_LAHIR'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Nama</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['PATIENT_NAME'][0]);?>" disabled >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Umur</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['UMUR'][0]);?> <?php echo rtrim($function_GetLabMasterByID['UMUR_SAT'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Tanggal Lahir</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['BIRTH_DATE'][0]);?>" disabled >
 											</div>
 										</div>
 										
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Alamat</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['ALAMAT'][0]);?>" disabled >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Umur</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['AGE'][0]);?> <?php echo rtrim($function_GetLabMasterByID['UMUR_SAT'][0]);?>" disabled >
+											</div>
+										</div>
+										
+										<div class="form-group row">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Alamat</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo rtrim($function_GetLabMasterByID['PATIENT_ADDRESS'][0]);?>" disabled >
 											</div>
 										</div>
 									</div>
@@ -338,7 +376,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 						</div>
 						
 						<div class="row">
-							<div class="col-lg-9">
+							<div class="col-lg-8">
 								<section class="card">
 									<header class="card-header">
 										<h2 class="card-title">Data Analisa Darah</h2>
@@ -385,7 +423,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 								</section>
 							</div>
 							
-							<div class="col-lg-3">
+							<div class="col-lg-4">
 								<section class="card">
 									<header class="card-header">
 										<h2 class="card-title">Histogram PLT, RBC, WBC</h2>

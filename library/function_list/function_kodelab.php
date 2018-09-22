@@ -11,12 +11,13 @@ function AddKodeLab($input_parameter){
 	"
 	select
 		count(b.id) as total_row
-	from public.tab_kdlab b
+	from lab_code b
 	where
-		b.nama = '".addslashes($input_parameter['NAMA'])."'
+		b.NAME = '".addslashes($input_parameter['NAME'])."'
 	";
-	$result_check = pg_query($db, $query_check);
-	$row_check = pg_fetch_assoc($result_check);
+/* 	echo $query_check;exit; */
+	$result_check = $db->query($query_check);
+	$row_check = $result_check->fetch_assoc();
 	$total_row = $row_check['total_row'];
 	
 	if( $total_row > 0 ){
@@ -26,29 +27,48 @@ function AddKodeLab($input_parameter){
 	
 		$query_add = 
 		"
-		insert into public.tab_kdlab
+		insert into lab_code
 		(
-		nama,
-		metoda,
-		grup1,
-		status
+		NAME,
+		GROUP_1,
+		GROUP_2,
+		GROUP_3,
+		SATUAN,
+		METODA,
+		KD_LAB,
+		KD_LIS,
+		KOMA,
+		YFORMAT,
+		KD_FROM_DEVICE,
+		CREATED_AT,
+		CREATED_BY
 		)
 		values
 		(
-		'".addslashes($input_parameter['NAMA'])."',
+		'".addslashes($input_parameter['NAME'])."',
+		'".addslashes($input_parameter['GROUP_1'])."',
+		'".addslashes($input_parameter['GROUP_2'])."',
+		'".addslashes($input_parameter['GROUP_3'])."',
+		'".addslashes($input_parameter['SATUAN'])."',
 		'".addslashes($input_parameter['METODA'])."',
-		'".addslashes($input_parameter['GRUP'])."',
-		'".$input_parameter['STATUS']."'
+		'".addslashes($input_parameter['KD_LAB'])."',
+		'".addslashes($input_parameter['KD_LIS'])."',
+		'".addslashes($input_parameter['KOMA'])."',
+		'".addslashes($input_parameter['YFORMAT'])."',
+		'".addslashes($input_parameter['KD_FROM_DEVICE'])."',
+		'".date('Y-m-d H:i:s')."',
+		'".$_SESSION['OSH']['COMPOSITE_ID']."'
 		)
 		";
 		
-		$result_add = pg_query($db, $query_add);
-		$row_add = pg_fetch_row($result_add);
+		$result_add = $db->query($query_add);
+		$new_id = $db->insert_id;
 		
-		//echo $query_add;exit;
+/* 		echo $query_add;exit; */
 		
 		$function_result['FUNCTION_RESULT'] = 1;
 		$function_result['SYSTEM_MESSAGE'] = "Kode Lab telah berhasil ditambahkan." ;
+		$function_result['NEW_ID'] = $new_id;
 
 	}
 	
@@ -86,8 +106,8 @@ function AddNilaiRujukanByKodeLabID($input_parameter){
 	)
 	";
 	
-	$result_add = pg_query($db, $query_add);
-	$row_add = pg_fetch_row($result_add);
+	$result_add = $db->query($query_add);
+	$row_add = $result_add->fetch_assoc();
 	
 	//echo $query_add;exit;
 	
@@ -101,10 +121,10 @@ function GetAllNilaiRujukanByKodeLabID($input_parameter){
 	global $db;
 	
 	$query_get = "select * from public.tab_n_rujukan where id_kdlab = '".$input_parameter['ID_KDLAB']."'";
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $row_get = $result_get->fetch_assoc() ){
 		
 		$array_id[] = $row_get['id'];
 		$array_sex[] = $row_get['sex'];
@@ -140,7 +160,7 @@ function DeleteNilaiRujukanByID($input_parameter){
 	from public.tab_n_rujukan
 	where id = '".$input_parameter['ID']."'
 	";
-	$result_delete = pg_query($db, $query_delete);
+	$result_delete = $db->query($query_delete);
 	
 	$function_result['FUNCTION_RESULT'] = 1;
 	$function_result['SYSTEM_MESSAGE'] = "Data nilai rujukan telah berhasil dihapus.";
@@ -168,34 +188,45 @@ function UpdateKodeLabByID($input_parameter){
 	"
 	select
 		count(b.id) as total_row
-	from public.tab_kdlab b
+	from lab_code b
 	where
-		b.nama = '".addslashes($input_parameter['NAMA'])."'
+		b.NAME = '".addslashes($input_parameter['NAME'])."'
 		and b.id != '".$input_parameter['ID']."'
 	";
-	$result_check = pg_query($db, $query_check);
-	$row_check = pg_fetch_assoc($result_check);
+/* 	echo $query_check;exit; */
+	$result_check = $db->query($query_check);
+	$row_check = $result_check->fetch_assoc();
 	$total_row = $row_check['total_row'];
 	
 	if( $total_row > 0 ){
 		$function_result['FUNCTION_RESULT'] = 0;
-		$function_result['SYSTEM_MESSAGE'] = "Kode Lab (".$input_parameter['NAMA'].") telah digunakan. Silahkan mencoba kembali dengan nama kode lab yang lain.";
+		$function_result['SYSTEM_MESSAGE'] = "Kode Lab (".$input_parameter['NAME'].") telah digunakan. Silahkan mencoba kembali dengan nama kode lab yang lain.";
 	} else {
 	
 		$query_update = 
 		"
 		update
-			public.tab_kdlab
+			lab_code
 		set
-			nama = '".addslashes($input_parameter['NAMA'])."'
-			,metoda = '".addslashes($input_parameter['METODA'])."'
-			,grup1 = '".addslashes($input_parameter['GRUP'])."'
-			,status = '".$input_parameter['STATUS']."'
+		
+			NAME = '".addslashes($input_parameter['NAME'])."',
+			GROUP_1 = '".addslashes($input_parameter['GROUP_1'])."',
+			GROUP_2 = '".addslashes($input_parameter['GROUP_2'])."',
+			GROUP_3 = '".addslashes($input_parameter['GROUP_3'])."',
+			SATUAN = '".addslashes($input_parameter['SATUAN'])."',
+			METODA = '".addslashes($input_parameter['METODA'])."',
+			KD_LAB = '".addslashes($input_parameter['KD_LAB'])."',
+			KD_LIS = '".addslashes($input_parameter['KD_LIS'])."',
+			KOMA = '".addslashes($input_parameter['KOMA'])."',
+			YFORMAT = '".addslashes($input_parameter['YFORMAT'])."',
+			KD_FROM_DEVICE = '".addslashes($input_parameter['KD_FROM_DEVICE'])."',
+			UPDATED_AT = '".date('Y-m-d H:i:s')."',
+			UPDATED_BY = '".$_SESSION['OSH']['COMPOSITE_ID']."'
 		where
 			id = '".$input_parameter['ID']."'
 		";
-		//echo $query_update;exit;
-		$result_update = pg_query($db, $query_update);
+/* 		echo $query_update;exit; */
+		$result_update = $db->query($query_update);
 	
 		$function_result['FUNCTION_RESULT'] = 1;
 		$function_result['SYSTEM_MESSAGE'] = "Data kode lab telah berhasil diperbaharui." ;
@@ -210,10 +241,10 @@ function DeleteKodeLabByID($input_parameter){
 	$query_delete = 
 	"
 	delete 
-	from public.tab_kdlab
+	from lab_code
 	where id = '".$input_parameter['ID']."'
 	";
-	$result_delete = pg_query($db, $query_delete);
+	$result_delete = $db->query($query_delete);
 	
 	$function_result['FUNCTION_RESULT'] = 1;
 	$function_result['SYSTEM_MESSAGE'] = "Data kode lab telah berhasil dihapus.";
@@ -224,44 +255,48 @@ function DeleteKodeLabByID($input_parameter){
 function GetKodeLabByID($input_parameter){
 	global $db;
 	
-	$query_get = "select * from public.tab_kdlab where id = '".$input_parameter['ID']."' ";
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$query_get = "select * from lab_code where id = '".$input_parameter['ID']."' ";
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $row_get = $result_get->fetch_assoc() ){
 		
-		$array_id[] = $row_get['id'];
-		$array_nama[] = stripslashes($row_get['nama']);
-		$array_grup1[] = $row_get['grup1'];
-		$array_grup2[] = $row_get['grup2'];
-		$array_grup3[] = $row_get['grup3'];
-		$array_satuan[] = $row_get['satuan'];
-		$array_nrujukan[] = $row_get['n_rujukan'];
-		$array_metoda[] = $row_get['metoda'];
-		$array_status[] = $row_get['status'];
-		$array_kdlab[] = $row_get['kdlab'];
-		$array_kdlis[] = $row_get['kd_lis'];
-		$array_koma[] = $row_get['koma'];
-		$array_yformat[] = $row_get['yformat'];
-		$array_kddarialat[] = $row_get['kd_dari_alat'];
+		$array_id[] = $row_get['ID'];
+		$array_nama[] = stripslashes($row_get['NAME']);
+		$array_grup1[] = $row_get['GROUP_1'];
+		$array_grup2[] = $row_get['GROUP_2'];
+		$array_grup3[] = $row_get['GROUP_3'];
+		$array_satuan[] = $row_get['SATUAN'];
+		$array_metoda[] = $row_get['METODA'];
+		$array_kdlab[] = $row_get['KD_LAB'];
+		$array_kdlis[] = $row_get['KD_LIS'];
+		$array_koma[] = $row_get['KOMA'];
+		$array_yformat[] = $row_get['YFORMAT'];
+		$array_kddarialat[] = $row_get['KD_FROM_DEVICE'];
+		$array_createdat[] = $row_get['CREATED_AT'];
+		$array_updatedat[] = $row_get['UPDATED_AT'];
+		$array_createdby[] = $row_get['CREATED_BY'];
+		$array_updatedby[] = $row_get['UPDATED_BY'];
 		
 	}
 	
 	$grand_array['TOTAL_ROW'] = $num_get;
 	$grand_array['ID'] = $array_id;
-	$grand_array['NAMA'] = $array_nama;
-	$grand_array['GRUP1'] = $array_grup1;
-	$grand_array['GRUP2'] = $array_grup2;
-	$grand_array['GRUP3'] = $array_grup3;
+	$grand_array['NAME'] = $array_nama;
+	$grand_array['GROUP_1'] = $array_grup1;
+	$grand_array['GROUP_2'] = $array_grup2;
+	$grand_array['GROUP_3'] = $array_grup3;
 	$grand_array['SATUAN'] = $array_satuan;
-	$grand_array['N_RUJUKAN'] = $array_nrujukan;
 	$grand_array['METODA'] = $array_metoda;
-	$grand_array['STATUS'] = $array_status;
-	$grand_array['KDLAB'] =	$array_kdlab;
+	$grand_array['KD_LAB'] = $array_kdlab;
 	$grand_array['KD_LIS'] = $array_kdlis;
 	$grand_array['KOMA'] = $array_koma;
 	$grand_array['YFORMAT'] = $array_yformat;
-	$grand_array['KD_DARI_ALAT'] = $array_kddarialat;
+	$grand_array['KD_FROM_DEVICE'] = $array_kddarialat;
+	$grand_array['CREATED_AT'] = $array_createdat;
+	$grand_array['UPDATED_AT'] = $array_updatedat;
+	$grand_array['CREATED_BY'] = $array_createdby;
+	$grand_array['UPDATED_BY'] = $array_updatedby;
 	
 	return $grand_array;
 
@@ -270,44 +305,48 @@ function GetKodeLabByID($input_parameter){
 function GetAllKodeLab(){
 	global $db;
 	
-	$query_get = "select * from public.tab_kdlab";
-	$result_get = pg_query($db, $query_get);
-	$num_get = pg_num_rows($result_get);
+	$query_get = "select * from lab_code";
+	$result_get = $db->query($query_get);
+	$num_get = $result_get->num_rows;
 
-	while( $row_get = pg_fetch_assoc($result_get) ){
+	while( $row_get = $result_get->fetch_assoc() ){
 		
-		$array_id[] = $row_get['id'];
-		$array_nama[] = stripslashes($row_get['nama']);
-		$array_grup1[] = $row_get['grup1'];
-		$array_grup2[] = $row_get['grup2'];
-		$array_grup3[] = $row_get['grup3'];
-		$array_satuan[] = $row_get['satuan'];
-		$array_nrujukan[] = $row_get['n_rujukan'];
-		$array_metoda[] = $row_get['metoda'];
-		$array_status[] = $row_get['status'];
-		$array_kdlab[] = $row_get['kdlab'];
-		$array_kdlis[] = $row_get['kd_lis'];
-		$array_koma[] = $row_get['koma'];
-		$array_yformat[] = $row_get['yformat'];
-		$array_kddarialat[] = $row_get['kd_dari_alat'];
+		$array_id[] = $row_get['ID'];
+		$array_nama[] = stripslashes($row_get['NAME']);
+		$array_grup1[] = $row_get['GROUP_1'];
+		$array_grup2[] = $row_get['GROUP_2'];
+		$array_grup3[] = $row_get['GROUP_3'];
+		$array_satuan[] = $row_get['SATUAN'];
+		$array_metoda[] = $row_get['METODA'];
+		$array_kdlab[] = $row_get['KD_LAB'];
+		$array_kdlis[] = $row_get['KD_LIS'];
+		$array_koma[] = $row_get['KOMA'];
+		$array_yformat[] = $row_get['YFORMAT'];
+		$array_kddarialat[] = $row_get['KD_FROM_DEVICE'];
+		$array_createdat[] = $row_get['CREATED_AT'];
+		$array_updatedat[] = $row_get['UPDATED_AT'];
+		$array_createdby[] = $row_get['CREATED_BY'];
+		$array_updatedby[] = $row_get['UPDATED_BY'];
 		
 	}
 	
 	$grand_array['TOTAL_ROW'] = $num_get;
 	$grand_array['ID'] = $array_id;
-	$grand_array['NAMA'] = $array_nama;
-	$grand_array['GRUP1'] = $array_grup1;
-	$grand_array['GRUP2'] = $array_grup2;
-	$grand_array['GRUP3'] = $array_grup3;
+	$grand_array['NAME'] = $array_nama;
+	$grand_array['GROUP_1'] = $array_grup1;
+	$grand_array['GROUP_2'] = $array_grup2;
+	$grand_array['GROUP_3'] = $array_grup3;
 	$grand_array['SATUAN'] = $array_satuan;
-	$grand_array['N_RUJUKAN'] = $array_nrujukan;
 	$grand_array['METODA'] = $array_metoda;
-	$grand_array['STATUS'] = $array_status;
-	$grand_array['KDLAB'] =	$array_kdlab;
+	$grand_array['KD_LAB'] = $array_kdlab;
 	$grand_array['KD_LIS'] = $array_kdlis;
 	$grand_array['KOMA'] = $array_koma;
 	$grand_array['YFORMAT'] = $array_yformat;
-	$grand_array['KD_DARI_ALAT'] = $array_kddarialat;
+	$grand_array['KD_FROM_DEVICE'] = $array_kddarialat;
+	$grand_array['CREATED_AT'] = $array_createdat;
+	$grand_array['UPDATED_AT'] = $array_updatedat;
+	$grand_array['CREATED_BY'] = $array_createdby;
+	$grand_array['UPDATED_BY'] = $array_updatedby;
 	
 	return $grand_array;
 }

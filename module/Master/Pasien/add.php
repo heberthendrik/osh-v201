@@ -79,19 +79,19 @@
 									</header>
 									<div class="card-body">
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Nama Pasien *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Nama Pasien *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNama" required >
 											</div>
 										</div><div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No. Rekam Medis *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No. Rekam Medis *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNoRm" required >
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2">Jenis Kelamin *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2">Jenis Kelamin *</label>
+											<div class="col-lg-8">
 												<select class="form-control" id="input_status" name="selectSex" required >
 													<option value="">--Pilih Jenis Kelamin--</option>
 													<option value="L" >Laki-Laki</option>
@@ -100,8 +100,8 @@
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Tanggal Lahir *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Tanggal Lahir *</label>
+											<div class="col-lg-8">
 												<input type="date" class="form-control" id="input_namapasien" name="dateTanggalLahir" required >
 											</div>
 										</div>
@@ -109,8 +109,8 @@
 										if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
 											?>
 											<div class="form-group row">
-												<label class="col-lg-3 control-label text-lg-right pt-2">Rumah Sakit *</label>
-												<div class="col-lg-6">
+												<label class="col-lg-4 control-label text-lg-right pt-2">Rumah Sakit *</label>
+												<div class="col-lg-8">
 													<select class="form-control " id="input_idrs" name="selectRumahSakit" required >
 														<option value="">--Pilih Rumah Sakit--</option>
 														<?php
@@ -144,27 +144,27 @@
 									</header>
 									<div class="card-body">
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No KTP</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No KTP *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textNoKTP" required >
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Alamat *</label>
-											<div class="col-lg-6">
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Alamat *</label>
+											<div class="col-lg-8">
 												<input type="text" class="form-control" id="input_namapasien" name="textAlamat" required >
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">No Telp</label>
-											<div class="col-lg-6">
-												<input type="text" class="form-control" id="input_namapasien" name="textNoTelp"  >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">No Telp</label>
+											<div class="col-lg-8">
+												<input type="text" class="form-control" id="input_namapasien" name="textNoTelp" >
 											</div>
 										</div>
 										<div class="form-group row">
-											<label class="col-lg-3 control-label text-lg-right pt-2" for="inputDefault">Email</label>
-											<div class="col-lg-6">
-												<input type="email" class="form-control" id="input_namapasien" name="emailEmail"  >
+											<label class="col-lg-4 control-label text-lg-right pt-2" for="inputDefault">Email</label>
+											<div class="col-lg-8">
+												<input type="email" class="form-control" id="input_namapasien" name="emailEmail" >
 											</div>
 										</div>
 									</div>

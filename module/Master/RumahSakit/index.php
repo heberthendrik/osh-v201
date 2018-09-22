@@ -100,6 +100,7 @@ $repository_url = "../../../MASTER";
 												<tr>
 													<th>System ID</th>
 													<th>Nama Rumah Sakit</th>
+													<th>Alamat</th>
 												</tr>
 											</thead>
 											<tbody>
@@ -113,6 +114,7 @@ $repository_url = "../../../MASTER";
 														<tr onclick="window.location='detail.php?id=<?php echo $function_GetAllRumahSakit['ID'][$i] ;?>'">
 															<td><?php echo ($i+1);?></td>
 															<td><?php echo $function_GetAllRumahSakit['NAMA'][$i];?></td>
+															<td><?php echo $function_GetAllRumahSakit['ADDRESS'][$i];?></td>
 														</tr>
 														<?php	
 													}

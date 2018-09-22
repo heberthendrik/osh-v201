@@ -85,18 +85,6 @@
 					                    <?php
 				                    }
 				                    ?>
-				                    <?php
-				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 || $_SESSION['OSH']['ID_ROLE'] == 2 ){
-					                    ?>
-					                    <li <?php if( strpos($actual_link, '/User/') != false ){ echo ' class="nav-active" '; } ?> >
-					                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/User/index.php">
-					                            <i class="fa fa-fw fa-users" aria-hidden="true"></i>
-					                            <span>User</span>
-					                        </a>                        
-					                    </li>
-					                    <?php
-					                }
-					                ?>
 					                <!--
 					                <?php
 				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
@@ -111,12 +99,25 @@
 					                }
 					                ?>
 					                -->
+					                
 				                    <li <?php if( strpos($actual_link, '/Lab/') != false ){ echo ' class="nav-active" '; } ?> >
 				                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Lab/index.php">
 				                            <i class="fa fa-fw fa-stethoscope" aria-hidden="true"></i>
 				                            <span>Hasil Lab</span>
 				                        </a>                        
 				                    </li>
+				                    <?php
+				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
+					                    ?>
+					                    <li <?php if( strpos($actual_link, '/Admin/') != false ){ echo ' class="nav-active" '; } ?> >
+					                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Admin/index.php">
+					                            <i class="fa fa-fw fa-users" aria-hidden="true"></i>
+					                            <span>Admin</span>
+					                        </a>                        
+					                    </li>
+					                    <?php
+					                }
+					                ?>
 				                    
 				
 				                </ul>

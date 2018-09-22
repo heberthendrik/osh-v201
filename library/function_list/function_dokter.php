@@ -7,6 +7,7 @@
 function AddDokter($input_parameter){
 	global $db;
 	
+	$random_email = rand(123456, 654321).'@shree.com';
 	$random_password = rand(123456, 654321);
 	
 	$query_add_user = 
@@ -14,6 +15,7 @@ function AddDokter($input_parameter){
 	insert into master_user
 	(
 	NAME,
+	EMAIL,
 	NIK_TYPE,
 	PASSWORD,
 	TEMP_PASSWORD
@@ -21,6 +23,7 @@ function AddDokter($input_parameter){
 	values
 	(
 	'".addslashes($input_parameter['NAMA'])."',
+	'".$random_email."',
 	'1',
 	'".password_hash($random_password, PASSWORD_BCRYPT, [10])."',
 	'".$random_password."'
@@ -320,7 +323,7 @@ function GetAllDokter(){
 			t3.NIK_EMPLOYEE as NIK_EMPLOYEE,
 			t3.IS_ACTIVE as IS_ACTIVE,
 			t3.CREATED_AT as CREATED_AT,
-			t3.UPATED_AT as UPDATED_AT,
+			t3.UPDATED_AT as UPDATED_AT,
 			t3.CREATED_BY as CREATED_BY,
 			t3.UPDATED_BY as UPDATED_BY,
 			t3.LAST_LOGIN as LAST_LOGIN,
@@ -334,6 +337,7 @@ function GetAllDokter(){
 			and t1.ID_RS = '".$_SESSION['OSH']['ID_RS']."' 
 		";
 	}
+	//echo $query_get;exit;
 	$result_get = $db->query($query_get);
 	$num_get = $result_get->num_rows;
 
