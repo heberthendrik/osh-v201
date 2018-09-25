@@ -78,15 +78,22 @@ $repository_url = "../../../MASTER";
 					<?php include('../../include/system_message.php'); ?>
 
 					<!-- start: page -->
-						<div class="row">
-							<div class="col">
-								<section class="card">
-									<header class="card-header" style="text-align:right;">
-										<a href="add.php" class="btn btn-primary">Tambah Data</a>
-									</header>
-								</section>
-							</div>
-						</div>
+						<?php
+						if( $_SESSION['OSH']['ID_ROLE'] == 1 || $_SESSION['OSH']['ID_ROLE'] == 2 ){
+							?>
+							<div class="row">
+								<div class="col">
+									<section class="card">
+										<header class="card-header" style="text-align:right;">
+											<a href="add.php" class="btn btn-primary">Tambah Data</a>
+										</header>
+									</section>
+								</div>
+							</div>	
+							<?php
+						}
+						?>
+						
 						
 						<div class="row">
 							<div class="col">

@@ -85,12 +85,17 @@ $repository_url = "../../MASTER";
 									<div class="widget-summary">
 										<div class="widget-summary-col">
 											<div class="summary">
-												<h4 class="title">Today Lab Number</h4>
+												<h4 class="title">Nomor Lab Hari ini</h4>
 												<div class="info">
 													<?php
-													$query_gettodaylabnumber = "select COUNT(ID::int) as todaylabnumber from tab_lab_master where created_at::date = '".date('Y-m-d')."'::date";
-													$result_gettodaylabnumber = pg_query($db, $query_gettodaylabnumber);
-													$row_gettodaylabnumber = pg_fetch_assoc($result_gettodaylabnumber);
+													$query_gettodaylabnumber = "select count(id) as todaylabnumber from lab_main where overall_status > 0 and created_at = '".date('Y-m-d H:i:s')."'";
+													
+													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
+														$query_gettodaylabnumber .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
+													}
+													
+													$result_gettodaylabnumber = $db->query($query_gettodaylabnumber);
+													$row_gettodaylabnumber = $result_gettodaylabnumber->fetch_assoc();
 													$todaylabnumber = $row_gettodaylabnumber['todaylabnumber'];
 													?>
 													<strong class="amount"><?php echo $todaylabnumber;?></strong>
@@ -107,12 +112,17 @@ $repository_url = "../../MASTER";
 									<div class="widget-summary">
 										<div class="widget-summary-col">
 											<div class="summary">
-												<h4 class="title">Today Completed Report</h4>
+												<h4 class="title">Laporan Selesai Hari ini</h4>
 												<div class="info">
 													<?php
-													$query_gettodaycompletedreport = "select SUM(kd_acc::int) as todaycompletedreport from tab_lab_master where created_at::date = '".date('Y-m-d')."'::date";
-													$result_gettodaycompletedreport = pg_query($db, $query_gettodaycompletedreport);
-													$row_gettodaycompletedreport = pg_fetch_assoc($result_gettodaycompletedreport);
+													$query_gettodaycompletedreport = "select count(id) as todaycompletedreport from lab_main where overall_status > 1 and created_at = '".date('Y-m-d H:i:s')."'";
+													
+													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
+														$query_gettodaycompletedreport .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
+													}
+													
+													$result_gettodaycompletedreport = $db->query($query_gettodaycompletedreport);
+													$row_gettodaycompletedreport = $result_gettodaycompletedreport->fetch_assoc();
 													$todaycompletedreport = $row_gettodaycompletedreport['todaycompletedreport'];
 													
 													if( $todaycompletedreport > 0 ){
@@ -135,14 +145,19 @@ $repository_url = "../../MASTER";
 									<div class="widget-summary">
 										<div class="widget-summary-col">
 											<div class="summary">
-												<h4 class="title">Today Pending Approval</h4>
+												<h4 class="title">Persetujuan Tertunda Hari ini</h4>
 												<div class="info">
-												<?php
-												$query_gettodaypendingapproval = "select COUNT(kd_acc::int) as todaypendingapproval from tab_lab_master where created_at::date = '".date('Y-m-d')."'::date and kd_acc = '0' ";
-												$result_gettodaypendingapproval = pg_query($db, $query_gettodaypendingapproval);
-												$row_gettodaypendingapproval = pg_fetch_assoc($result_gettodaypendingapproval);
-												$todaypendingapproval = $row_gettodaypendingapproval['todaypendingapproval'];
-												?>
+													<?php
+													$query_gettodaypendingapproval = "select count(id) as todaypendingapproval from lab_main where overall_status = 1 and created_at = '".date('Y-m-d H:i:s')."'";
+														
+													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
+														$query_gettodaypendingapproval .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
+													}
+														
+													$result_gettodaypendingapproval = $db->query($query_gettodaypendingapproval);
+													$row_gettodaypendingapproval = $result_gettodaypendingapproval->fetch_assoc();
+													$todaypendingapproval = $row_gettodaypendingapproval['todaypendingapproval'];
+													?>
 													<strong class="amount"><?php echo $todaypendingapproval;?></strong>
 												</div>
 											</div>
@@ -157,19 +172,26 @@ $repository_url = "../../MASTER";
 									<div class="widget-summary">
 										<div class="widget-summary-col">
 											<div class="summary">
-												<h4 class="title">Today Number of Customers</h4>
+												<h4 class="title">Pelanggan Hari ini</h4>
 												<div class="info">
-												<?php
-												$query_getnumberofcustomertoday = "select COUNT(ID::int) as numberofcustomertoday from tab_lab_master where created_at::date = '".date('Y-m-d')."'::date group by nama ";
-												$result_getnumberofcustomertoday = pg_query($db, $query_getnumberofcustomertoday);
-												$row_getnumberofcustomertoday = pg_fetch_assoc($result_getnumberofcustomertoday);
-												$todaynumberofcustomers = $row_getnumberofcustomertoday['numberofcustomertoday'];
-												if( $todaynumberofcustomers > 0 ){
-													$todaynumberofcustomers = $todaynumberofcustomers;
-												} else {
-													$todaynumberofcustomers = 0;
-												}
-												?>
+													<?php
+													$query_getnumberofcustomertoday = "select count(id) as numberofcustomertoday from lab_main where created_at = '".date('Y-m-d H:i:s')."' ";
+														
+													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
+														$query_getnumberofcustomertoday .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
+													}
+													
+													$query_getnumberofcustomertoday .= " group by ID_PATIENT ";
+													
+													$result_getnumberofcustomertoday = $db->query($query_getnumberofcustomertoday);
+													$row_getnumberofcustomertoday = $result_getnumberofcustomertoday->fetch_assoc();
+													$todaynumberofcustomers = $row_getnumberofcustomertoday['numberofcustomertoday'];
+													if( $todaynumberofcustomers > 0 ){
+														$todaynumberofcustomers = $todaynumberofcustomers;
+													} else {
+														$todaynumberofcustomers = 0;
+													}
+													?>
 													<strong class="amount"><?php echo $todaynumberofcustomers;?></strong>
 												</div>
 											</div>
@@ -199,9 +221,14 @@ $repository_url = "../../MASTER";
 									
 									<?php
 									for($i=0;$i<=date('d');$i++){
-										$query_gettodaylabnumber = "select COUNT(ID::int) as todaylabnumber from tab_lab_master where created_at::date = '".date('2018-09-'.($i+1))."'::date";
-										$result_gettodaylabnumber = pg_query($db, $query_gettodaylabnumber);
-										$row_gettodaylabnumber = pg_fetch_assoc($result_gettodaylabnumber);
+										$query_gettodaylabnumber = "select count(id) as todaylabnumber from lab_main where created_at >= DATE_SUB('".date('Y-m-d')."', INTERVAL 14 DAY)";
+
+										if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
+											$query_gettodaylabnumber .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
+										}
+										
+										$result_gettodaylabnumber = $db->query($query_gettodaylabnumber);
+										$row_gettodaylabnumber = $result_gettodaylabnumber->fetch_assoc();
 										$todaylabnumber_barchart[] .= $row_gettodaylabnumber['todaylabnumber'];
 										
 										$string_flotbarsdata .= '["'.($i+1).' '.date('M').'", '.$row_gettodaylabnumber['todaylabnumber'].']';
@@ -211,6 +238,7 @@ $repository_url = "../../MASTER";
 										}
 										
 									}
+
 									?>
 									
 									<script type="text/javascript">
@@ -259,19 +287,19 @@ $repository_url = "../../MASTER";
 									<div class="chart chart-md" id="flotPie"></div>
 									
 									<?php
-									$query_get = "select count(id) as total_row from public.tab_lab_master where umur_sat = 'Tahun' and umur < 20";
-									$result_get = pg_query($db, $query_get);
-									$row_get = pg_fetch_assoc($result_get);
+									$query_get = "select count(id) as total_row from lab_main where age < 20";
+									$result_get = $db->query($query_get);
+									$row_get = $result_get->fetch_assoc();
 									$age_statistik_lessthan20 = $row_get['total_row'];
 									
-									$query_get = "select count(id) as total_row from public.tab_lab_master where umur_sat = 'Tahun' and umur >= 20 and umur <30";
-									$result_get = pg_query($db, $query_get);
-									$row_get = pg_fetch_assoc($result_get);
+									$query_get = "select count(id) as total_row from lab_main where age >= 20 and age <30";
+									$result_get = $db->query($query_get);
+									$row_get = $result_get->fetch_assoc();
 									$age_statistik_between20and30 = $row_get['total_row'];
 									
-									$query_get = "select count(id) as total_row from public.tab_lab_master where umur_sat = 'Tahun' and umur > 30";
-									$result_get = pg_query($db, $query_get);
-									$row_get = pg_fetch_assoc($result_get);
+									$query_get = "select count(id) as total_row from lab_main where age = 'Tahun' and age > 30";
+									$result_get = $db->query($query_get);
+									$row_get = $result_get->fetch_assoc();
 									$age_statistik_largerthan30 = $row_get['total_row'];
 									?>
 									
@@ -320,18 +348,32 @@ $repository_url = "../../MASTER";
 										<div class="col-lg-6">
 											<div class="circular-bar">
 												<?php
-												$query_get = "select count(id) as total_row from public.tab_lab_master where sex = 'L'";
-												$result_get = pg_query($db, $query_get);
-												$row_get = pg_fetch_assoc($result_get);
+												$query_get = "select count(id) as total_row from lab_main where PATIENT_SEX = 'L'";
+												$result_get = $db->query($query_get);
+												$row_get = $result_get->fetch_assoc();
 												$age_statistik_L = $row_get['total_row'];
 												
-												$query_get = "select count(id) as total_row from public.tab_lab_master where sex = 'P'";
-												$result_get = pg_query($db, $query_get);
-												$row_get = pg_fetch_assoc($result_get);
+												$query_get = "select count(id) as total_row from lab_main where PATIENT_SEX = 'P'";
+												$result_get = $db->query($query_get);
+												$row_get = $result_get->fetch_assoc();
 												$age_statistik_P = $row_get['total_row'];
 												
 												$prosentase_L = $age_statistik_L / ($age_statistik_L + $age_statistik_P) * 100;
 												$prosentase_P = $age_statistik_P / ($age_statistik_L + $age_statistik_P) * 100;
+												
+												if( $prosentase_L > 0 ){
+													$prosentase_L = $prosentase_L;
+												} else {
+													$prosentase_L = '0';
+												}
+												
+												if( $prosentase_P > 0 ){
+													$prosentase_P = $prosentase_P;
+												} else {
+													$prosentase_P = '0';
+												}
+												
+												
 												?>
 												<div class="circular-bar-chart" data-percent="<?php echo $prosentase_L;?>" data-plugin-options='{ "barColor": "#0088CC", "delay": 300 }'>
 													<strong>Laki-Laki</strong>
