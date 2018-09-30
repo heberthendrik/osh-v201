@@ -13,6 +13,7 @@
 				<div class="header-right">
 			
 					<ul class="notifications">
+						
 						<!--
 						<li>
 							<a href="#" class="dropdown-toggle notification-icon" data-toggle="dropdown">
@@ -127,7 +128,7 @@
 								<i class="fas fa-bell"></i>
 								<?php
 								global $db;
-								$query_get = "select * from notification where ID_MASTER_RECEIVER = '".$_SESSION['OSH']['COMPOSITE_ID']."' and is_read = 0 ";
+								$query_get = "select * from notification where ID_MASTER_RECEIVER = '".$_SESSION['OSH']['COMPOSITE_ID']."' and is_read is null ";
 								$result_get = $db->query($query_get);
 								$num_get = $result_get->num_rows;
 								?>
@@ -140,6 +141,19 @@
 			
 					<div id="userbox" class="userbox">
 						<a href="#" data-toggle="dropdown">
+							<figure class="profile-picture">
+								<?php
+								if( $_SESSION['OSH']['PROFILE_PICTURE'] != '' ){
+									?>
+									<img src="<?php echo GetMasterLink();?>/media_library/profilepicture/<?php echo $_SESSION['OSH']['COMPOSITE_ID'] ?>/<?php echo $_SESSION['OSH']['PROFILE_PICTURE'] ?>" alt="Joseph Doe" class="rounded-circle" data-lock-picture="img/!logged-user.jpg" />
+									<?php
+								} else {
+									?>
+									<img src="<?php echo GetMasterLink();?>/MASTER/img/!logged-user.jpg" alt="Joseph Doe" class="rounded-circle" data-lock-picture="img/!logged-user.jpg" />
+									<?php
+								}
+								?>
+							</figure>
 							<div class="profile-info" data-lock-name="John Doe" data-lock-email="johndoe@okler.com">
 								<span class="name"><?php echo $_SESSION['OSH']['NAME'];?></span>
 								<span class="role">

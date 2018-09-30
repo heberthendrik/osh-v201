@@ -143,7 +143,7 @@ $repository_url = "../../MASTER";
 													
 													$display_nolab = $function_GetAllLabMaster['NO_LAB_PREFIX'][$i].$display_nolab;
 													
-													if( $function_GetAllLabMaster['OVERALL_STATUS'][$i] == 1 ){
+													if( $function_GetAllLabMaster['OVERALL_STATUS'][$i] > 0 ){
 														?>
 														<tr onclick="window.location='detail.php?id=<?php echo $function_GetAllLabMaster['ID'][$i] ;?>'">
 															<td><?php echo $display_tanggalan;?></td>

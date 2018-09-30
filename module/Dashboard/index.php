@@ -88,7 +88,7 @@ $repository_url = "../../MASTER";
 												<h4 class="title">Nomor Lab Hari ini</h4>
 												<div class="info">
 													<?php
-													$query_gettodaylabnumber = "select count(id) as todaylabnumber from lab_main where overall_status > 0 and created_at = '".date('Y-m-d H:i:s')."'";
+													$query_gettodaylabnumber = "select count(id) as todaylabnumber from lab_main where overall_status > 0 and DATE(created_at) = CURDATE()";
 													
 													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
 														$query_gettodaylabnumber .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
@@ -115,7 +115,7 @@ $repository_url = "../../MASTER";
 												<h4 class="title">Laporan Selesai Hari ini</h4>
 												<div class="info">
 													<?php
-													$query_gettodaycompletedreport = "select count(id) as todaycompletedreport from lab_main where overall_status > 1 and created_at = '".date('Y-m-d H:i:s')."'";
+													$query_gettodaycompletedreport = "select count(id) as todaycompletedreport from lab_main where overall_status > 1 and DATE(created_at) = CURDATE()";
 													
 													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
 														$query_gettodaycompletedreport .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
@@ -148,7 +148,7 @@ $repository_url = "../../MASTER";
 												<h4 class="title">Persetujuan Tertunda Hari ini</h4>
 												<div class="info">
 													<?php
-													$query_gettodaypendingapproval = "select count(id) as todaypendingapproval from lab_main where overall_status = 1 and created_at = '".date('Y-m-d H:i:s')."'";
+													$query_gettodaypendingapproval = "select count(id) as todaypendingapproval from lab_main where overall_status = 1 and DATE(created_at) = CURDATE()";
 														
 													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
 														$query_gettodaypendingapproval .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
@@ -175,7 +175,7 @@ $repository_url = "../../MASTER";
 												<h4 class="title">Pelanggan Hari ini</h4>
 												<div class="info">
 													<?php
-													$query_getnumberofcustomertoday = "select count(id) as numberofcustomertoday from lab_main where created_at = '".date('Y-m-d H:i:s')."' ";
+													$query_getnumberofcustomertoday = "select count(id) as numberofcustomertoday from lab_main where DATE(created_at) = CURDATE() ";
 														
 													if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
 														$query_getnumberofcustomertoday .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
@@ -220,8 +220,13 @@ $repository_url = "../../MASTER";
 									<div class="chart chart-md" id="flotBars"></div>
 									
 									<?php
-									for($i=0;$i<=date('d');$i++){
-										$query_gettodaylabnumber = "select count(id) as todaylabnumber from lab_main where created_at >= DATE_SUB('".date('Y-m-d')."', INTERVAL 14 DAY)";
+									
+									for($i=0;$i<=14;$i++){
+										
+										
+										$tanggal_kalkulasi = date('Y-m-d', strtotime("-".$i." days"));
+										
+										$query_gettodaylabnumber = "select count(id) as todaylabnumber from lab_main where DATE(created_at) = '".$tanggal_kalkulasi."' ";
 
 										if( $_SESSION['OSH']['ID_ROLE'] != 1 ){
 											$query_gettodaylabnumber .= " and ID_RS = '".$_SESSION['OSH']['ID_RS']."' ";
@@ -297,7 +302,7 @@ $repository_url = "../../MASTER";
 									$row_get = $result_get->fetch_assoc();
 									$age_statistik_between20and30 = $row_get['total_row'];
 									
-									$query_get = "select count(id) as total_row from lab_main where age = 'Tahun' and age > 30";
+									$query_get = "select count(id) as total_row from lab_main where age >= 30";
 									$result_get = $db->query($query_get);
 									$row_get = $result_get->fetch_assoc();
 									$age_statistik_largerthan30 = $row_get['total_row'];

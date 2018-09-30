@@ -7,7 +7,7 @@
 function GetTotalReportGenerated(){
 	global $db;
 	
-	$query_get = "select count(id::int) as total_lab from public.tab_lab_master where id_pengentri = '".$_SESSION['OSH']['ID_COMPOSITE']."' ";
+	$query_get = "select count(ID) as total_lab from lab_main where overall_status > 0 and created_by = '".$_SESSION['OSH']['COMPOSITE_ID']."' ";
 	$result_get = $db->query($query_get);
 	$row_get = $result_get->fetch_assoc();
 	$total_row = $row_get['total_lab'];
@@ -18,7 +18,7 @@ function GetTotalReportGenerated(){
 function GetPendingReport(){
 	global $db;
 	
-	$query_get = "select count(kd_acc::int) as total_pending_report from public.tab_lab_master where kd_acc = '0' and id_pengentri = '".$_SESSION['OSH']['ID_COMPOSITE']."' ";
+	$query_get = "select count(ID) as total_pending_report from lab_main where overall_status = 1 and created_by = '".$_SESSION['OSH']['COMPOSITE_ID']."' ";
 	$result_get = $db->query($query_get);
 	$row_get = $result_get->fetch_assoc();
 	$total_row = $row_get['total_pending_report'];
@@ -30,10 +30,10 @@ function GetPendingReport(){
 function GetCompletedReport(){
 	global $db;
 	
-	$query_get = "select count(kd_acc::int) as total_pending_report from public.tab_lab_master where kd_acc = '1' and id_pengentri = '".$_SESSION['OSH']['ID_COMPOSITE']."' ";
+	$query_get = "select count(ID) as total_completed_report from lab_main where overall_status > 1 and created_by = '".$_SESSION['OSH']['COMPOSITE_ID']."' ";
 	$result_get = $db->query($query_get);
 	$row_get = $result_get->fetch_assoc();
-	$total_row = $row_get['total_pending_report'];
+	$total_row = $row_get['total_completed_report'];
 	
 	return $total_row;
 	
@@ -106,10 +106,15 @@ function GetNotifikasiByID($input_parameter){
 function UpdateProfilePicture($input_parameter){
 	global $db;
 	
-	$query_update = "update public.users set image = '".$input_parameter['FILENAME']."' where id = '".$_SESSION['OSH']['ID_COMPOSITE']."'";
-	$result_update = pg_query($db, $query_update);
+	$query_get_userid = "select * from master_user_composite where ID = '".$_SESSION['OSH']['COMPOSITE_ID']."'";
+	$result_get_userid = $db->query($query_get_userid);
+	$row_get_userid = $result_get_userid->fetch_assoc();
+	$fk_userid = $row_get_userid['ID_USER'];
 	
-	$_SESSION['OSH']['IMAGE'] = $input_parameter['FILENAME'];
+	$query_update = "update master_user set PROFILE_PICTURE = '".$input_parameter['FILENAME']."' where id = '".$fk_userid."'";
+	$result_update = $db->query($query_update);
+	
+	$_SESSION['OSH']['PROFILE_PICTURE'] = $input_parameter['FILENAME'];
 	
 }
 
@@ -120,14 +125,13 @@ function UpdateProfileByID($input_parameter){
 	"
 	select
 		count(b.ID) as total_row
-	from public.users b
+	from master_user b
 	where
 		b.email = '".addslashes($input_parameter['EMAIL'])."'
-		and b.rs_id = '99999'
-		and b.id != '99999'
+		and b.id is null
 	";
-	$result_check = pg_query($db, $query_check);
-	$row_check = pg_fetch_assoc($result_check);
+	$result_check = $db->query($query_check);
+	$row_check = $result_check->fetch_assoc();
 	$total_row = $row_check['total_row'];
 	
 	if( $total_row > 0 ){
@@ -135,18 +139,24 @@ function UpdateProfileByID($input_parameter){
 		$function_result['SYSTEM_MESSAGE'] = "Email (".$input_parameter['EMAIL'].") telah digunakan. Silahkan mencoba kembali dengan email yang lain.";
 	} else {
 	
+		$query_get_userid = "select * from master_user_composite where ID = '".$_SESSION['OSH']['COMPOSITE_ID']."'";
+		$result_get_userid = $db->query($query_get_userid);
+		$row_get_userid = $result_get_userid->fetch_assoc();
+		$fk_userid = $row_get_userid['ID_USER'];
+		
 		$query_update = 
 		"
-		update
-			public.users
-		set
-			name = '".addslashes($input_parameter['NAMA'])."',
-			email = '".addslashes($input_parameter['EMAIL'])."',
-			password = '".password_hash($input_parameter['PASSWORD'], PASSWORD_BCRYPT, [10])."'
+		update 
+			master_user 
+		set 
+			EMAIL = '".addslashes($input_parameter['EMAIL'])."',
+			NAME = '".addslashes($input_parameter['NAMA'])."',
+			PASSWORD = '".password_hash($input_parameter['PASSWORD'], PASSWORD_BCRYPT, [10])."'
 		where
-			id = '".$_SESSION['OSH']['ID_COMPOSITE']."'
+			ID = '".$fk_userid."'
 		";
-		$result_update = pg_query($db, $query_update);
+/* 		echo $query_update;exit; */
+		$result_update = $db->query($query_update);
 		
 		$_SESSION['OSH']['NAME'] = $input_parameter['NAMA'];
 		$_SESSION['OSH']['EMAIL'] = $input_parameter['EMAIL'];
@@ -161,19 +171,24 @@ function UpdateProfileByID($input_parameter){
 function TruncateProfilePicture($input_parameter){
 	global $db;
 	
-	$query_getnamafile = "select image from public.users where id = '".$_SESSION['OSH']['ID_COMPOSITE']."'";
-	$result_getnamafile = pg_query($db, $query_getnamafile);
-	$row_getnamafile = pg_fetch_assoc($result_getnamafile);
+	$query_get_userid = "select * from master_user_composite where ID = '".$_SESSION['OSH']['COMPOSITE_ID']."'";
+	$result_get_userid = $db->query($query_get_userid);
+	$row_get_userid = $result_get_userid->fetch_assoc();
+	$fk_userid = $row_get_userid['ID_USER'];
+	
+	$query_getnamafile = "select profile_picture from master_user where id = '".$fk_userid."'";
+	$result_getnamafile = $db->query($query_getnamafile);
+	$row_getnamafile = $result_getnamafile->fetch_assoc();
 	$nama_file = $row_getnamafile['image'];
 
-	$query_update = "update public.users set image = null where id = '".$_SESSION['OSH']['ID_COMPOSITE']."'";
-	$result_update = pg_query($db, $query_update);
+	$query_update = "update master_user set profile_picture = null where id = '".$_SESSION['OSH']['COMPOSITE_ID']."'";
+	$result_update = $db->query($query_update);
 	
 	$function_result['FUNCTION_RESULT'] = 1;
 	$function_result['SYSTEM_MESSAGE'] = "Profile picture telah berhasil dihapus." ;
 	
-	unlink('../../media_library/profilepicture/'.$_SESSION['OSH']['ID_COMPOSITE'].'/'.$nama_file);
-	$_SESSION['OSH']['IMAGE'] = '';
+	unlink('../../media_library/profilepicture/'.$_SESSION['OSH']['COMPOSITE_ID'].'/'.$nama_file);
+	$_SESSION['OSH']['PROFILE_PICTURE'] = '';
 	
 	return $function_result;
 	

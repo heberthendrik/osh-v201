@@ -195,22 +195,22 @@ $display_nolab = $function_GetLabMasterByID['NO_LAB_PREFIX'][0].$function_GetLab
 								</thead>
 								<tbody>
 									<?php
-									$query_labdetail = "select * from public.tab_lab_detil where id_master = '".$_GET['lid']."'";
-									$result_labdetail = pg_query($db, $query_labdetail);
-									$num_labdetail = pg_num_rows($result_labdetail);
+									$query_labdetail = "select * from lab_detail where ID_LAB_MAIN = '".$_GET['lid']."'";
+									$result_labdetail = $db->query($query_labdetail);
+									$num_labdetail = $result_labdetail->num_rows;
 									
-									while( $row_labdetail = pg_fetch_assoc($result_labdetail) ){
+									while( $row_labdetail = $result_labdetail->fetch_assoc() ){
 									
-										$query_getnmlab = "select nama from tab_kdlab where id = '".$row_labdetail['id_lab']."'";
-										$result_getnmlab = pg_query($db, $query_getnmlab);
-										$row_getnmlab = pg_fetch_assoc($result_getnmlab);
+										$query_getnmlab = "select NAME from lab_code where id = '".$row_labdetail['ID_LAB_CODE']."'";
+										$result_getnmlab = $db->query($query_getnmlab);
+										$row_getnmlab = $result_getnmlab->fetch_assoc();
 									
 										?>
 										<tr>
-											<td data-title="Pemeriksaan" ><?php echo $row_getnmlab['nama'];?></td>
-											<td data-title="Hasil" ><b><?php echo $row_labdetail['hasil'];?></b></td>
-											<td data-title="N Rujukan" ><?php echo $row_labdetail['rujukan_awal'].'-'.$row_labdetail['rujukan_akhir'];?></td>
-											<td data-title="Satuan" ><?php echo $row_labdetail['satuan'];?></td>
+											<td data-title="Pemeriksaan" ><?php echo $row_getnmlab['NAME'];?></td>
+											<td data-title="Hasil" ><b><?php echo $row_labdetail['HASIL'];?></b></td>
+											<td data-title="N Rujukan" ><?php echo $row_labdetail['NILAI_RUJUKAN'];?></td>
+											<td data-title="Satuan" ><?php echo $row_labdetail['SATUAN'];?></td>
 										</tr>
 										<?php	
 									}
@@ -225,12 +225,49 @@ $display_nolab = $function_GetLabMasterByID['NO_LAB_PREFIX'][0].$function_GetLab
 								
 								$id = $_GET['lid'];
 								
-								$query_getgraphdata = "select * from public.tab_lab_histogram where id = '".$id."'";
-								$result_getgraphdata = pg_query($db, $query_getgraphdata);
-								$row_getgraphdata = pg_fetch_assoc($result_getgraphdata);
+								$query_xx = "select * from lab_histogram where barcode_number = '".$display_nolab."'";
+								$result_xx = $db->query($query_xx);
+								$row_xx = $result_xx->fetch_assoc();
+								$image_base64 = $row_xx['IMAGE'];
+								$image_base64_decode = base64_decode($image_base64);
+								
+								$explode_decoding = explode("{", $image_base64_decode);
+								
+								$rawvalue_plt = $explode_decoding[3];
+								/*
+								$ltrim_rawvalue_plt = substr($rawvalue_plt, 8);
+								$rtrim_rawvalue_plt = substr($ltrim_rawvalue_plt, 0, -12);
+								$nett_array_plt = explode(",", $rtrim_rawvalue_plt);
+								*/
+								$ltrim_rawvalue_plt = substr($rawvalue_plt, 7);
+								$rtrim_rawvalue_plt = substr($ltrim_rawvalue_plt, 0, -11);
+								$row_getgraphdata['plt_value'] = $rtrim_rawvalue_plt;
+
+								$rawvalue_rbc = $explode_decoding[5];
+								/*
+								$ltrim_rawvalue_rbc = substr($rawvalue_rbc, 8);
+								$rtrim_rawvalue_rbc = substr($ltrim_rawvalue_rbc, 0, -12);
+								$nett_array_rbc = explode(",", $rtrim_rawvalue_rbc);
+								*/
+								$ltrim_rawvalue_rbc = substr($rawvalue_rbc, 7);
+								$rtrim_rawvalue_rbc = substr($ltrim_rawvalue_rbc, 0, -11);
+								$row_getgraphdata['rbc_value'] = $rtrim_rawvalue_rbc;
+								
+								$rawvalue_wbc = $explode_decoding[7];
+								/*
+								$ltrim_rawvalue_wbc = substr($rawvalue_wbc, 8);
+								$rtrim_rawvalue_wbc = substr($ltrim_rawvalue_wbc, 0, -4);
+								$nett_array_wbc = explode(",", $rtrim_rawvalue_wbc);
+								*/
+								$ltrim_rawvalue_wbc = substr($rawvalue_wbc, 7);
+								$rtrim_rawvalue_wbc = substr($ltrim_rawvalue_wbc, 0, -3);
+								$row_getgraphdata['wbc_value'] = $rtrim_rawvalue_wbc;
+								
 								$arr[0]['plt_value'] = $row_getgraphdata['plt_value'];
 								$arr[0]['rbc_value'] = $row_getgraphdata['rbc_value'];
 								$arr[0]['wbc_value'] = $row_getgraphdata['wbc_value'];
+								
+								
 							
 							
 							    $x_pltvalue = $arr[0]['plt_value'];

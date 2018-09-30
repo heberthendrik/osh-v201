@@ -18,7 +18,7 @@ if( $_POST['module'] == "UpdateMyProfile" ){
 	if( $input_parameter['FILE'] != null ){
 		
 		//UPLOAD PAYMENT RECEIPT
-		$upload_parameter['TARGET_DIRECTORY'] = '../../media_library/profilepicture/'.$_SESSION['OSH']['ID'];
+		$upload_parameter['TARGET_DIRECTORY'] = '../../media_library/profilepicture/'.$_SESSION['OSH']['COMPOSITE_ID'];
 		$upload_parameter['IMAGE_FILE'] = $input_parameter['FILE'];
 		CustomUploadFile($upload_parameter);
 			
@@ -34,7 +34,7 @@ if( $_POST['module'] == "UpdateMyProfile" ){
 
 if( $_GET['module'] == "DeleteProfilePicture" ){
 	
-	$input_parameter['ID'] = $_SESSION['OSH']['ID'];
+	$input_parameter['ID'] = $_SESSION['OSH']['COMPOSITE_ID'];
 	
 	$function_result = TruncateProfilePicture($input_parameter);
 	$_SESSION['OSH']['FUNCTION_RESULT'] = $function_result['FUNCTION_RESULT'];

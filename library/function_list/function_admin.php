@@ -151,6 +151,7 @@ function UpdateAdminByID($input_parameter){
 	update
 		master_admin
 	set
+		NIK_EMPLOYEE = '".$input_parameter['NIK_EMPLOYEE']."',
 		IS_ACTIVE = '".$input_parameter['STATUS']."',
 		UPDATED_AT = '".date('Y-m-d H:i:s')."',
 		UPDATED_BY = '".$_SESSION['OSH']['COMPOSITE_ID']."'
@@ -211,7 +212,15 @@ function GetAdminByID($input_parameter){
 		t2.PROFILE_PICTURE as PROFILE_PICTURE,
 		t2.PASSWORD as PASSWORD,
 		t2.TEMP_PASSWORD as TEMP_PASSWORD,
-		t3.IS_ACTIVE as IS_ACTIVE
+		t3.NIK_EMPLOYEE as NIK_EMPLOYEE,
+		t3.IS_ACTIVE as IS_ACTIVE,
+		t3.CREATED_AT as CREATED_AT,
+		t3.UPDATED_AT as UPDATED_AT,
+		t3.CREATED_BY as CREATED_BY,
+		t3.UPDATED_BY as UPDATED_BY,
+		t3.LAST_LOGIN as LAST_LOGIN,
+		t3.LOGIN_IP as LOGIN_IP,
+		t3.LOGIN_MAC as LOGIN_MAC
 	from master_user_composite t1
 		left join master_user t2 on t2.ID = t1.ID_USER
 		left join master_admin t3 on t3.ID = t1.ID_ADMIN
@@ -236,6 +245,7 @@ function GetAdminByID($input_parameter){
 		$array_profilepicture[] = $row_get['PROFILE_PICTURE'];
 		$array_password[] = $row_get['PASSWORD'];
 		$array_temppassword[] = $row_get['TEMP_PASSWORD'];
+		$array_nikemployee[] = $row_get['NIK_EMPLOYEE'];
 		$array_isactive[] = $row_get['IS_ACTIVE'];
 		$array_createdat[] = $row_get['CREATED_AT'];
 		$array_updatedat[] = $row_get['UPDATED_AT'];
@@ -260,6 +270,7 @@ function GetAdminByID($input_parameter){
 	$grand_array['PROFILE_PICTURE'] = $array_profilepicture;
 	$grand_array['PASSWORD'] = $array_password;
 	$grand_array['TEMP_PASSWORD'] = $array_temppassword;
+	$grand_array['NIK_EMPLOYEE'] = $array_nikemployee;
 	$grand_array['IS_ACTIVE'] = $array_isactive;
 	$grand_array['CREATED_AT'] = $array_createdat;
 	$grand_array['UPDATED_AT'] = $array_updatedat;
@@ -292,7 +303,15 @@ function GetAllAdmin(){
 			t2.PROFILE_PICTURE as PROFILE_PICTURE,
 			t2.PASSWORD as PASSWORD,
 			t2.TEMP_PASSWORD as TEMP_PASSWORD,
-			t3.IS_ACTIVE as IS_ACTIVE
+			t3.NIK_EMPLOYEE as NIK_EMPLOYEE,
+			t3.IS_ACTIVE as IS_ACTIVE,
+			t3.CREATED_AT as CREATED_AT,
+			t3.UPDATED_AT as UPDATED_AT,
+			t3.CREATED_BY as CREATED_BY,
+			t3.UPDATED_BY as UPDATED_BY,
+			t3.LAST_LOGIN as LAST_LOGIN,
+			t3.LOGIN_IP as LOGIN_IP,
+			t3.LOGIN_MAC as LOGIN_MAC
 		from master_user_composite t1
 			left join master_user t2 on t2.ID = t1.ID_USER
 			left join master_admin t3 on t3.ID = t1.ID_ADMIN
@@ -315,9 +334,10 @@ function GetAllAdmin(){
 			t2.PROFILE_PICTURE as PROFILE_PICTURE,
 			t2.PASSWORD as PASSWORD,
 			t2.TEMP_PASSWORD as TEMP_PASSWORD,
+			t3.NIK_EMPLOYEE as NIK_EMPLOYEE,
 			t3.IS_ACTIVE as IS_ACTIVE,
 			t3.CREATED_AT as CREATED_AT,
-			t3.UPATED_AT as UPDATED_AT,
+			t3.UPDATED_AT as UPDATED_AT,
 			t3.CREATED_BY as CREATED_BY,
 			t3.UPDATED_BY as UPDATED_BY,
 			t3.LAST_LOGIN as LAST_LOGIN,
@@ -349,6 +369,7 @@ function GetAllAdmin(){
 		$array_profilepicture[] = $row_get['PROFILE_PICTURE'];
 		$array_password[] = $row_get['PASSWORD'];
 		$array_temppassword[] = $row_get['TEMP_PASSWORD'];
+		$array_nikemployee[] = $row_get['NIK_EMPLOYEE'];
 		$array_isactive[] = $row_get['IS_ACTIVE'];
 		$array_createdat[] = $row_get['CREATED_AT'];
 		$array_updatedat[] = $row_get['UPDATED_AT'];
@@ -373,6 +394,7 @@ function GetAllAdmin(){
 	$grand_array['PROFILE_PICTURE'] = $array_profilepicture;
 	$grand_array['PASSWORD'] = $array_password;
 	$grand_array['TEMP_PASSWORD'] = $array_temppassword;
+	$grand_array['NIK_EMPLOYEE'] = $array_nikemployee;
 	$grand_array['IS_ACTIVE'] = $array_isactive;
 	$grand_array['CREATED_AT'] = $array_createdat;
 	$grand_array['UPDATED_AT'] = $array_updatedat;

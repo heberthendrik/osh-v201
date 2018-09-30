@@ -83,9 +83,9 @@ $repository_url = "../../MASTER";
 								<div class="card-body">
 									<div class="thumb-info mb-3">
 										<?php
-										if( $_SESSION['OSH']['IMAGE'] != '' ){
+										if( $_SESSION['OSH']['PROFILE_PICTURE'] != '' ){
 											?>
-											<img src="<?php echo GetMasterLink();?>/media_library/profilepicture/<?php echo $_SESSION['OSH']['ID'] ?>/<?php echo $_SESSION['OSH']['IMAGE'] ?>" class="rounded img-fluid" alt="John Doe">
+											<img src="<?php echo GetMasterLink();?>/media_library/profilepicture/<?php echo $_SESSION['OSH']['COMPOSITE_ID'] ?>/<?php echo $_SESSION['OSH']['PROFILE_PICTURE'] ?>" class="rounded img-fluid" alt="John Doe">
 											<?php
 										} else {
 											?>
@@ -96,7 +96,15 @@ $repository_url = "../../MASTER";
 										
 										<div class="thumb-info-title">
 											<span class="thumb-info-inner"><?php echo $_SESSION['OSH']['NAME'];?></span>
-											<span class="thumb-info-type"><?php echo $_SESSION['OSH']['ROLES'];?></span>
+											<span class="thumb-info-type">
+												<?php 
+												$query_roles = "select * from master_roles where ID = '".$_SESSION['OSH']['ID_ROLE']."'";
+												$result_roles = $db->query($query_roles);
+												$num_roles = $result_roles->num_rows;
+												$row_roles = $result_roles->fetch_assoc();
+												echo $roles_name = $row_roles['NAME'];
+												?>
+											</span>
 										</div>
 									</div>
 								</div>
@@ -105,15 +113,15 @@ $repository_url = "../../MASTER";
 							
 							<ul class="simple-card-list mb-3">
 								<li class="primary">
-									<h3><?php //echo GetTotalReportGenerated();?></h3>
+									<h3><?php echo GetTotalReportGenerated();?></h3>
 									<p class="text-light">Report Generated</p>
 								</li>
 								<li class="primary">
-									<h3><?php //echo GetPendingReport();?></h3>
+									<h3><?php echo GetPendingReport();?></h3>
 									<p class="text-light">Pending Report</p>
 								</li>
 								<li class="primary">
-									<h3><?php //echo GetCompletedReport();?></h3>
+									<h3><?php echo GetCompletedReport();?></h3>
 									<p class="text-light">Report Completed</p>
 								</li>
 							</ul>
@@ -196,7 +204,7 @@ $repository_url = "../../MASTER";
 											<div class="form-group">
 												<label for="inputAddress2">Foto</label>
 												<?php
-												if($_SESSION['OSH']['IMAGE'] != ''){
+												if($_SESSION['OSH']['PROFILE_PICTURE'] != ''){
 													?>
 													<div>
 														<a class="btn btn-danger" href="process.php?module=DeleteProfilePicture">Ganti Profile Picture</a>

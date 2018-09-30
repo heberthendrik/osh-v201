@@ -218,6 +218,11 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 														<?php
 														$input_parameter_iddokterassigned['ID'] = $function_GetLabMasterByID['ID_DOCTOR_ASSIGNED'][0];
 														$functionx_GetDokterByID = GetDokterByID($input_parameter_iddokterassigned);
+														
+														if( $input_parameter_iddokterassigned['ID'] == 0 ){
+															$functionx_GetDokterByID['NAME'][0] = "Semua Dokter";
+														}
+														
 														?>
 														<input type="text" class="form-control" id="input_namalab" name="textNama" value="<?php echo $functionx_GetDokterByID['NAME'][0];?>" disabled >
 													</div>

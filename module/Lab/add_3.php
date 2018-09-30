@@ -124,7 +124,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 													<label class="col-lg-4 control-label text-lg-right pt-2">Ruang *</label>
 													<div class="col-lg-8">
 														<select name="selectRuang" class="form-control " id="input_idruang" required>
-															<option value="">--Pilih Ruang--</option>
+															<option value="0">--Pilih Ruang--</option>
 															<?php
 															$function_GetAllRuang = GetAllRuang();
 															
@@ -153,7 +153,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 													<label class="col-lg-4 control-label text-lg-right pt-2">Kelas *</label>
 													<div class="col-lg-8">
 														<select name="selectKelas" class="form-control " id="input_idkelas" required>
-															<option value="">--Pilih Kelas--</option>
+															<option value="0">--Pilih Kelas--</option>
 															<?php
 															$function_GetAllKelas = GetAllKelas();
 															
@@ -182,7 +182,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 													<label class="col-lg-4 control-label text-lg-right pt-2">Status *</label>
 													<div class="col-lg-8">
 														<select name="selectStatus" class="form-control " id="input_idstatus" required>
-															<option value="">--Pilih Status--</option>
+															<option value="0">--Pilih Status--</option>
 															<?php
 															$function_GetAllStatus = GetAllStatus();
 															
@@ -211,7 +211,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 													<label class="col-lg-4 control-label text-lg-right pt-2">Dokter Pemeriksa</label>
 													<div class="col-lg-8">
 														<select name="selectIDDokterPemeriksa" class="form-control " id="input_idstatus">
-															<option value="">--Semua Dokter--</option>
+															<option value="0">--Semua Dokter--</option>
 															<?php
 															$function_GetAllDokter = GetAllDokter();
 															

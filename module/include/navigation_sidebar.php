@@ -23,24 +23,44 @@
 				                            <span>Beranda</span>
 				                        </a>                        
 				                    </li>
-				                    <li <?php if( strpos($actual_link, '/Ruang/') != false ){ echo ' class="nav-active" '; } ?> >
-				                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Ruang/index.php">
-				                            <i class="fa fa-fw fa-bed" aria-hidden="true"></i>
-				                            <span>Ruang</span>
-				                        </a>                        
-				                    </li>
-				                    <li <?php if( strpos($actual_link, '/Kelas/') != false ){ echo ' class="nav-active" '; } ?> >
-				                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Kelas/index.php">
-				                            <i class="fa fa-fw fa-file-medical-alt" aria-hidden="true"></i>
-				                            <span>Kelas</span>
-				                        </a>                        
-				                    </li>
-				                    <li <?php if( strpos($actual_link, '/Status/') != false ){ echo ' class="nav-active" '; } ?> >
-				                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Status/index.php">
-				                            <i class="fa fa-fw fa-file" aria-hidden="true"></i>
-				                            <span>Status</span>
-				                        </a>                        
-				                    </li>
+				                    <?php
+				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 || $_SESSION['OSH']['ID_ROLE'] == 2 ){
+				                    	?>
+					                    <li <?php if( strpos($actual_link, '/Ruang/') != false ){ echo ' class="nav-active" '; } ?> >
+					                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Ruang/index.php">
+					                            <i class="fa fa-fw fa-bed" aria-hidden="true"></i>
+					                            <span>Ruang</span>
+					                        </a>                        
+					                    </li>
+				                    	<?php
+				                    }
+				                    ?>
+				                    <?php
+				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 || $_SESSION['OSH']['ID_ROLE'] == 2 ){
+				                    	?>
+					                    <li <?php if( strpos($actual_link, '/Kelas/') != false ){ echo ' class="nav-active" '; } ?> >
+					                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Kelas/index.php">
+					                            <i class="fa fa-fw fa-file-medical-alt" aria-hidden="true"></i>
+					                            <span>Kelas</span>
+					                        </a>                        
+					                    </li>
+				                    	<?php
+				                    }
+				                    ?>
+				                    <?php
+				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 || $_SESSION['OSH']['ID_ROLE'] == 2 ){
+				                    	?>
+					                    <li <?php if( strpos($actual_link, '/Status/') != false ){ echo ' class="nav-active" '; } ?> >
+					                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Status/index.php">
+					                            <i class="fa fa-fw fa-file" aria-hidden="true"></i>
+					                            <span>Status</span>
+					                        </a>                        
+					                    </li>
+				                    	<?php
+				                    }
+				                    ?>
+				                    
+				                    
 				                    <li <?php if( strpos($actual_link, '/Dokter/') != false ){ echo ' class="nav-active" '; } ?> >
 				                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/Dokter/index.php">
 				                            <i class="fa fa-fw fa-user-md" aria-hidden="true"></i>
@@ -67,12 +87,18 @@
 				                            <span>Pasien</span>
 				                        </a>                        
 				                    </li>
-				                    <li <?php if( strpos($actual_link, '/KodeLab/') != false ){ echo ' class="nav-active" '; } ?> >
-				                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/KodeLab/index.php">
-				                            <i class="fa fa-fw fa-prescription-bottle-alt" aria-hidden="true"></i>
-				                            <span>Kode Lab</span>
-				                        </a>                        
-				                    </li>
+				                    <?php
+				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
+				                    	?>
+					                    <li <?php if( strpos($actual_link, '/KodeLab/') != false ){ echo ' class="nav-active" '; } ?> >
+					                        <a class="nav-link" href="<?php echo GetMasterLink(); ?>/module/Master/KodeLab/index.php">
+					                            <i class="fa fa-fw fa-prescription-bottle-alt" aria-hidden="true"></i>
+					                            <span>Kode Lab</span>
+					                        </a>                        
+					                    </li>	
+				                    	<?php
+				                    }
+				                    ?>
 				                    <?php
 				                    if( $_SESSION['OSH']['ID_ROLE'] == 1 ){
 					                    ?>
