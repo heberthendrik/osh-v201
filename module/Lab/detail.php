@@ -412,8 +412,25 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 													$result_getnmlab = $db->query($query_getnmlab);
 													$row_getnmlab = $result_getnmlab->fetch_assoc();
 													
+													$nilai_rujukan_explode = explode('-', $row_labdetail['NILAI_RUJUKAN']);
+													$nilai_rujukan_awal = $nilai_rujukan_explode[0];
+													$nilai_rujukan_akhir = $nilai_rujukan_explode[1];
+													$nilai_rujukan_selisih = $nilai_rujukan_akhir - $nilai_rujukan_awal;
+													
+													if( $row_labdetail['HASIL'] >= $nilai_rujukan_awal && $row_labdetail['HASIL'] <= $nilai_rujukan_akhir ){
+														$tr_color = ' color:green; ';
+													} else if( 
+																($row_labdetail['HASIL'] < $nilai_rujukan_awal && $row_labdetail['HASIL'] >= ($nilai_rujukan_awal-$nilai_rujukan_selisih))
+																|| 
+																($row_labdetail['HASIL'] > $nilai_rujukan_akhir && $row_labdetail['HASIL'] <= ($nilai_rujukan_akhir+$nilai_rujukan_selisih))
+															){
+														$tr_color = ' color:red; ';
+													} else {
+														$tr_color = ' color:purple; ';
+													} 
+													
 													?>
-													<tr>
+													<tr style="font-weight:bold;<?php echo $tr_color;?>">
 														<td data-title="Pemeriksaan" class="text-right"><?php echo $row_getnmlab['NAME'];?></td>
 														<td data-title="Hasil" class="text-right"><b><?php echo $row_labdetail['HASIL'];?></b></td>
 														<td data-title="N Rujukan" class="text-right"><?php echo $row_labdetail['NILAI_RUJUKAN'];?></td>
