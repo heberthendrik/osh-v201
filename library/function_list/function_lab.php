@@ -186,6 +186,7 @@ function GetLabDetailByID($input_parameter){
 		$array_idlab[] = $row_get['id_lab'];
 		$array_satuan[] = $row_get['satuan'];
 		$array_hasil[] = $row_get['hasil'];
+		$array_hasiledit[] = $row_get['hasil_edit'];
 		$array_flag[] = $row_get['flag'];
 		$array_rujukanawal[] = $row_get['rujukan_awal'];
 		$array_rujukanakhir[] = $row_get['rujukan_akhir'];
@@ -225,6 +226,7 @@ function GetLabDetailByID($input_parameter){
 	$grand_array['ID_LAB'] = $array_idlab;
 	$grand_array['SATUAN'] = $array_satuan;
 	$grand_array['HASIL'] = $array_hasil;
+	$grand_array['HASIL_EDIT'] = $array_hasiledit;
 	$grand_array['FLAG'] = $array_flag;
 	$grand_array['RUJUKAN_AWAL'] = $array_rujukanawal;
 	$grand_array['RUJUKAN_AKHIR'] = $array_rujukanakhir;
@@ -275,6 +277,7 @@ function GetAllLabDetail(){
 		$array_idlab[] = $row_get['id_lab'];
 		$array_satuan[] = $row_get['satuan'];
 		$array_hasil[] = $row_get['hasil'];
+		$array_hasiledit[] = $row_get['hasil_edit'];
 		$array_flag[] = $row_get['flag'];
 		$array_rujukanawal[] = $row_get['rujukan_awal'];
 		$array_rujukanakhir[] = $row_get['rujukan_akhir'];
@@ -314,6 +317,7 @@ function GetAllLabDetail(){
 	$grand_array['ID_LAB'] = $array_idlab;
 	$grand_array['SATUAN'] = $array_satuan;
 	$grand_array['HASIL'] = $array_hasil;
+	$grand_array['HASIL_EDIT'] = $array_hasiledit;
 	$grand_array['FLAG'] = $array_flag;
 	$grand_array['RUJUKAN_AWAL'] = $array_rujukanawal;
 	$grand_array['RUJUKAN_AKHIR'] = $array_rujukanakhir;
@@ -394,6 +398,7 @@ function GetLabMasterByID($input_parameter){
 		$array_doctorrejectionname[] = $row_get['DOCTOR_REJECTION_NAME'];
 		$array_idrs[] = $row_get['ID_RS'];
 		$array_overallstatus[] = $row_get['OVERALL_STATUS'];
+		$array_islabdetailedited[] = $row_get['IS_LAB_DETAIL_EDITED'];
 		$array_createdat[] = $row_get['CREATED_AT'];
 		$array_updatedat[] = $row_get['UPDATED_AT'];
 		$array_createdby[] = $row_get['CREATED_BY'];
@@ -436,6 +441,7 @@ function GetLabMasterByID($input_parameter){
 	$grand_array['DOCTOR_REJECTION_NAME'] = $array_doctorrejectionname;
 	$grand_array['ID_RS'] = $array_idrs;
 	$grand_array['OVERALL_STATUS'] = $array_overallstatus;
+	$grand_array['IS_LAB_DETAIL_EDITED'] = $array_islabdetailedited;
 	$grand_array['CREATED_AT'] = $array_createdat;
 	$grand_array['UDPATED_AT'] = $array_updatedat;
 	$grand_array['CREATED_BY'] = $array_createdby;
@@ -493,6 +499,7 @@ function GetAllLabMaster(){
 		$array_doctorrejectionname[] = $row_get['DOCTOR_REJECTION_NAME'];
 		$array_idrs[] = $row_get['ID_RS'];
 		$array_overallstatus[] = $row_get['OVERALL_STATUS'];
+		$array_islabdetailedited[] = $row_get['IS_LAB_DETAIL_EDITED'];
 		$array_createdat[] = $row_get['CREATED_AT'];
 		$array_updatedat[] = $row_get['UPDATED_AT'];
 		$array_createdby[] = $row_get['CREATED_BY'];
@@ -535,6 +542,7 @@ function GetAllLabMaster(){
 	$grand_array['DOCTOR_REJECTION_NAME'] = $array_doctorrejectionname;
 	$grand_array['ID_RS'] = $array_idrs;
 	$grand_array['OVERALL_STATUS'] = $array_overallstatus;
+	$grand_array['IS_LAB_DETAIL_EDITED'] = $array_islabdetailedited;
 	$grand_array['CREATED_AT'] = $array_createdat;
 	$grand_array['UDPATED_AT'] = $array_updatedat;
 	$grand_array['CREATED_BY'] = $array_createdby;
@@ -767,6 +775,39 @@ function FinalizeInputLab($input_parameter){
 	}
 		
 	return $function_result;
+}
+
+function UpdateLabDetail($input_parameter){
+	global $db;
+	
+	for( $i=0;$i<count($input_parameter['ARRAY_LAB_DETAIL_ID']);$i++ ){
+		
+		$query_update = 
+		"
+		update lab_detail 
+		set 
+			HASIL_EDIT = '".$input_parameter['ARRAY_HASIL'][$i]."' 
+		where 
+			ID = '".$input_parameter['ARRAY_LAB_DETAIL_ID'][$i]."' 
+			and ID_LAB_MAIN = '".$input_parameter['ID']."'
+		";
+		$result_update = $db->query($query_update);
+		
+	}
+	
+	$query_update = "update lab_main set IS_LAB_DETAIL_EDITED = 1 where id = '".$input_parameter['ID']."'";
+	$result_update = $db->query($query_update);
+	
+	if( $result_update ){
+		$function_result['FUNCTION_RESULT'] = 1;
+		$function_result['SYSTEM_MESSAGE'] = "Data lab telah berhasil diubah." ;
+	} else {
+		$function_result['FUNCTION_RESULT'] = 0;
+		$function_result['SYSTEM_MESSAGE'] = "Pengubahan data lab detail gagal. Silahkan hubungi adminsitrator." ;
+	}
+		
+	return $function_result;
+	
 }
 
 

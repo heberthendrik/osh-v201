@@ -103,6 +103,7 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 										<?php
 										if( $function_GetLabMasterByID['OVERALL_STATUS'][0] == 1 && $_SESSION['OSH']['ID_ROLE'] == 4 ){
 											?>
+											<a class="btn btn-default" href="update_lab.php?id=<?php echo $_GET['id'];?>">Edit</a>
 											<a class="modal-basic btn btn-success" href="#modalACC">ACC</a>		
 											<a class="modal-basic btn btn-danger" href="#modalTolak">Tolak</a>		
 											<?php
@@ -411,6 +412,12 @@ $function_GetLabMasterByID = GetLabMasterByID($lab_parameter);
 													$query_getnmlab = "select NAME from lab_code where id = '".$row_labdetail['ID_LAB_CODE']."'";
 													$result_getnmlab = $db->query($query_getnmlab);
 													$row_getnmlab = $result_getnmlab->fetch_assoc();
+													
+													if( $function_GetLabMasterByID['IS_LAB_DETAIL_EDITED'][0] == 1 ){
+														$row_labdetail['HASIL'] = $row_labdetail['HASIL_EDIT'];
+													} else {
+														$row_labdetail['HASIL'] = $row_labdetail['HASIL'];
+													}
 													
 													$nilai_rujukan_explode = explode('-', $row_labdetail['NILAI_RUJUKAN']);
 													$nilai_rujukan_awal = $nilai_rujukan_explode[0];

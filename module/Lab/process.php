@@ -275,4 +275,20 @@ if( $_GET['module'] == "FinalizeLabInput" ){
 	
 }
 
+if( $_POST['module'] == 'UpdateLabDetail' ){
+
+	$input_parameter['ID'] = $_POST['currentID'];
+	$input_parameter['ARRAY_LAB_DETAIL_ID'] = $_POST['array_labdetail'];
+	$input_parameter['ARRAY_HASIL'] = $_POST['array_hasil'];
+	
+	$function_result = UpdateLabDetail($input_parameter);
+	
+	$_SESSION['OSH']['FUNCTION_RESULT'] = $function_result['FUNCTION_RESULT'];
+	$_SESSION['OSH']['SYSTEM_MESSAGE'] = $function_result['SYSTEM_MESSAGE'];
+	
+	header("Location:detail.php?id=".$input_parameter['ID']);
+	exit;
+	
+}
+
 ?>

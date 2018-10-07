@@ -205,6 +205,12 @@ $display_nolab = $function_GetLabMasterByID['NO_LAB_PREFIX'][0].$function_GetLab
 										$result_getnmlab = $db->query($query_getnmlab);
 										$row_getnmlab = $result_getnmlab->fetch_assoc();
 													
+										if( $function_GetLabMasterByID['IS_LAB_DETAIL_EDITED'][0] == 1 ){
+											$row_labdetail['HASIL'] = $row_labdetail['HASIL_EDIT'];
+										} else {
+											$row_labdetail['HASIL'] = $row_labdetail['HASIL'];
+										}
+													
 										$nilai_rujukan_explode = explode('-', $row_labdetail['NILAI_RUJUKAN']);
 										$nilai_rujukan_awal = $nilai_rujukan_explode[0];
 										$nilai_rujukan_akhir = $nilai_rujukan_explode[1];
